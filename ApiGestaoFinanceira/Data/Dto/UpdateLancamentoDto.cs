@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ApiGestaoFinanceira.Models
+namespace ApiGestaoFinanceira.Data.Dto
 {
-    public class Lancamento
+    public class UpdateLancamentoDto
     {
-        [Key]
-        [Required]
-        [Column("ID_LANC")]
-        public int Id { get; set; }
         [Required(ErrorMessage = "O campo Data Hora é obrigatório")]
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }
