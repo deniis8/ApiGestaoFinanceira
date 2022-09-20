@@ -1,4 +1,6 @@
 using ApiGestaoFinanceira.Data;
+using ApiGestaoFinanceira.Services;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +31,8 @@ namespace ApiGestaoFinanceira
         {
             services.AddControllers();
             services.AddDbContext<AppDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("ServerConnectionGF")));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<LancamentoService, LancamentoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
