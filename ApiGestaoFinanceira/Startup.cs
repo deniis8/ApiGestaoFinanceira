@@ -33,6 +33,7 @@ namespace ApiGestaoFinanceira
             services.AddDbContext<AppDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("ServerConnectionGF")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<LancamentoService, LancamentoService>();
+            services.AddScoped<CentroCustoService, CentroCustoService>();
             services.AddCors();
         }
 
