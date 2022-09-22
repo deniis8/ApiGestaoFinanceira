@@ -12,6 +12,7 @@ namespace ApiGestaoFinanceira.Data
 
         }
         public DbSet<Lancamento> Lancamentos { get; set; }
+        public DbSet<CentroCusto> CentroCustos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
