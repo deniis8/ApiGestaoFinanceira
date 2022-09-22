@@ -33,6 +33,7 @@ namespace ApiGestaoFinanceira
             services.AddDbContext<AppDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("ServerConnectionGF")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<LancamentoService, LancamentoService>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +49,9 @@ namespace ApiGestaoFinanceira
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseCors(
+        options => options.WithOrigins("http://localhost:8100").AllowAnyMethod().AllowAnyHeader()
+    );
 
             app.UseEndpoints(endpoints =>
             {
