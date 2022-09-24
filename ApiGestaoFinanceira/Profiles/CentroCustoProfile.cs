@@ -1,5 +1,4 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
-using ApiGestaoFinanceira.Data.Dto.CentroCusto;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using System;

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ApiGestaoFinanceira.Data.Dto.CentroCusto
+namespace ApiGestaoFinanceira.Data.Dto
 {
     public class CreateCentroCustoDto
     {
