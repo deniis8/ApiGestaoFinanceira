@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiGestaoFinanceira.Models
 {
+    [Table("CCUSTO")]
     public class CentroCusto
     {
         [Key]
