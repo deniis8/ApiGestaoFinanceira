@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ApiGestaoFinanceira.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -25,6 +26,7 @@ namespace ApiGestaoFinanceira.Data.Dto
         [Required(ErrorMessage = "O campo ID do Centro de Custo é obrigatório")]
         [Column("ID_CCUSTO")]
         public int IdCCusto { get; set; }
+
         [Required(ErrorMessage = "O campo Status é obrigatório")]
         [Column("STATUS")]
         public string Status { get; set; }
