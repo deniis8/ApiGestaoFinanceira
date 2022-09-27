@@ -11,6 +11,6 @@ namespace ApiGestaoFinanceira.Data.Dto
     {
         [Required(ErrorMessage = "O campo Descrição do Centro de Custo é obrigatório")]
         [Column ("DESCRI")]
-        public string descriCCusto { get; set; }
+        public string DescriCCusto { get; set; }
     }
 }

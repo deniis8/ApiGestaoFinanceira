@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiGestaoFinanceira.Models
 {
@@ -25,5 +27,6 @@ namespace ApiGestaoFinanceira.Models
         [Required(ErrorMessage = "O campo Status é obrigatório")]
         [Column("STATUS")]
         public string Status { get; set; }
+        
     }
 }
