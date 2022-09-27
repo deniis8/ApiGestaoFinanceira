@@ -1,13 +1,8 @@
-﻿using ApiGestaoFinanceira.Data;
-using ApiGestaoFinanceira.Data.Dto;
+﻿using ApiGestaoFinanceira.Data.Dto;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ApiGestaoFinanceira.Controllers
 {
