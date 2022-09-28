@@ -11,6 +11,15 @@ namespace ApiGestaoFinanceira.Data
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            /*.builder.Entity<Lancamento>()
+                 .HasOne(lancamento => lancamento.IdCCusto);
+            WithOne(lancamento => lancamento.DescriCCusto)
+            .HasForeignKey<Lancamento>(lancamento => lancamento.IdCCusto);*/
+        }
+
         public DbSet<Lancamento> Lancamentos { get; set; }
         public DbSet<CentroCusto> CentroCustos { get; set; }
 

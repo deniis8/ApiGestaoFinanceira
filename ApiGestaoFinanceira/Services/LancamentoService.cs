@@ -36,6 +36,11 @@ namespace ApiGestaoFinanceira.Services
             {
                 List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
                 return readDto;
+                /*IEnumerable<Lancamento> query = from lancamento in lancamentos
+                                                where lancamento.CentroCusto.Any(centroCusto =>
+                                            centroCusto.Lanc == nomeDoFilme)
+                                            select cinema;
+                cinemas = query.ToList();*/
             }
             return null;
         }
