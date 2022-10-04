@@ -2,6 +2,7 @@
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace ApiGestaoFinanceira.Controllers
@@ -25,17 +26,25 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpGet]
-        public IActionResult RecuperaLancamentos([FromQuery] int? classificacaoEtaria = null)
+        public IActionResult RecuperaLancamentos()
         {
-            List<ReadLancamentoDto> readDto = _lancamentoService.RecuperaLancamentos();
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentos();
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
 
+        /*[HttpGet]
+        public IActionResult RecuperaLancamentos()
+        {
+            List<ReadLancamentoDto> readDto = _lancamentoService.RecuperaLancamentos();
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
+        }*/
+
         [HttpGet("{id}")]
         public IActionResult RecuperaLancamentosPorId(int id)
         {
-            ReadLancamentoDto readDto = _lancamentoService.RecuperaLancamentosPorId(id);
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorId(id);
             if (readDto == null) return NotFound();
             return Ok(readDto);
 

@@ -7,21 +7,22 @@ namespace ApiGestaoFinanceira.Data
 {
     public class AppDbContext : DbContext
     {
+        public DbSet<Lancamento> Lancamentos { get; set; }
+        public DbSet<CentroCusto> CentroCustos { get; set; }
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
 
         }
 
+        /*
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            /*.builder.Entity<Lancamento>()
-                 .HasOne(lancamento => lancamento.IdCCusto);
-            WithOne(lancamento => lancamento.DescriCCusto)
-            .HasForeignKey<Lancamento>(lancamento => lancamento.IdCCusto);*/
+            builder.Entity<Lancamento>()
+            .HasOne(l => l.CentroCusto)
+            .WithMany(c => c.Lancamentos);
         }
-
-        public DbSet<Lancamento> Lancamentos { get; set; }
-        public DbSet<CentroCusto> CentroCustos { get; set; }
+        */
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

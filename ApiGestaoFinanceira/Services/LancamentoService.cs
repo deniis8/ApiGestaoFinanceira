@@ -3,6 +3,8 @@ using ApiGestaoFinanceira.Data.Dto;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using FluentResults;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -27,7 +29,40 @@ namespace ApiGestaoFinanceira.Services
             return _mapper.Map<ReadLancamentoDto>(lancamento);
         }
 
-        public List<ReadLancamentoDto> RecuperaLancamentos()
+        public IEnumerable RecuperaLancamentos()
+        {
+            List<Lancamento> lancamentos;
+            lancamentos = _context.Lancamentos.ToList();
+
+            //Centro de Custo
+            List<CentroCusto> centroCustos;
+            centroCustos = _context.CentroCustos.ToList();
+
+            if (lancamentos != null)
+            {
+                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
+                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
+                var resultado = from lancameto in readDto
+                                join centroCusto in readCCustoDto
+                                on lancameto.IdCCusto equals centroCusto.Id
+                                select new
+                                {
+                                    Id = lancameto.Id,
+                                    DataHora = lancameto.DataHora,
+                                    Valor = lancameto.Valor,
+                                    Descricao = lancameto.Descricao,
+                                    Status = lancameto.Status,
+                                    IdCCusto = lancameto.IdCCusto,
+                                    DescriCCusto = centroCusto.DescriCCusto
+                                };
+                return resultado;
+
+
+            }
+            return null;
+        }
+
+        /*public List<ReadLancamentoDto> RecuperaLancamentos()
         {
             List<Lancamento> lancamentos;
             lancamentos = _context.Lancamentos.ToList();
@@ -36,25 +71,42 @@ namespace ApiGestaoFinanceira.Services
             {
                 List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
                 return readDto;
-                /*IEnumerable<Lancamento> query = from lancamento in lancamentos
-                                                where lancamento.CentroCusto.Any(centroCusto =>
-                                            centroCusto.Lanc == nomeDoFilme)
-                                            select cinema;
-                cinemas = query.ToList();*/
             }
             return null;
-        }
+        }*/
 
-        public ReadLancamentoDto RecuperaLancamentosPorId(int id)
+        public IEnumerable RecuperaLancamentosPorId(int id)
         {
             Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
+
             if (lancamento != null)
             {
-                ReadLancamentoDto lancamentoDto = _mapper.Map<ReadLancamentoDto>(lancamento);
+                List<Lancamento> lancamentos;
+                lancamentos = _context.Lancamentos.ToList();
+                //Centro de Custo
+                List<CentroCusto> centroCustos;
+                centroCustos = _context.CentroCustos.ToList();
 
-                return lancamentoDto;
+                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
+                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
+
+                var resultado = from lancameto in readDto
+                                join centroCusto in readCCustoDto
+                                on lancameto.IdCCusto equals centroCusto.Id
+                                where lancameto.Id == id
+                                select new
+                                {
+                                    Id = lancameto.Id,
+                                    DataHora = lancameto.DataHora,
+                                    Valor = lancameto.Valor,
+                                    Descricao = lancameto.Descricao,
+                                    Status = lancameto.Status,
+                                    IdCCusto = lancameto.IdCCusto,
+                                    DescriCCusto = centroCusto.DescriCCusto
+                                };
+                return resultado;
             }
-            return null;
+            return null;            
         }
 
         public Result AtualizaLancamento(int id, UpdateLancamentoDto lancamentoDto)
