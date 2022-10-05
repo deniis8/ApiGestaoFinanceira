@@ -33,14 +33,6 @@ namespace ApiGestaoFinanceira.Controllers
             return Ok(readDto);
         }
 
-        /*[HttpGet]
-        public IActionResult RecuperaLancamentos()
-        {
-            List<ReadLancamentoDto> readDto = _lancamentoService.RecuperaLancamentos();
-            if (readDto == null) return NotFound();
-            return Ok(readDto);
-        }*/
-
         [HttpGet("{id}")]
         public IActionResult RecuperaLancamentosPorId(int id)
         {
@@ -67,23 +59,4 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
     }
-    /*{
-        private readonly AppDbContext _appDbContext;
-
-        public LancamentosController(AppDbContext appDbContext)
-        {
-            _appDbContext = appDbContext;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetLancamentos()
-        {
-            return Ok(new
-            {
-                success = true,
-                data = await _appDbContext.Lancamentos.ToListAsync()
-            }
-                );
-        }
-    }*/
 }
