@@ -40,19 +40,20 @@ namespace ApiGestaoFinanceira.Services
 
             if (lancamentos != null)
             {
-                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
+                List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
                 List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
-                var resultado = from lancameto in readDto
+                var resultado = from lanc in readLancamentoDto
                                 join centroCusto in readCCustoDto
-                                on lancameto.IdCCusto equals centroCusto.Id
+                                on lanc.IdCCusto equals centroCusto.Id
+                                orderby lanc.DataHora descending
                                 select new
                                 {
-                                    Id = lancameto.Id,
-                                    DataHora = lancameto.DataHora,
-                                    Valor = lancameto.Valor,
-                                    Descricao = lancameto.Descricao,
-                                    Status = lancameto.Status,
-                                    IdCCusto = lancameto.IdCCusto,
+                                    Id = lanc.Id,
+                                    DataHora = lanc.DataHora,
+                                    Valor = lanc.Valor,
+                                    Descricao = lanc.Descricao,
+                                    Status = lanc.Status,
+                                    IdCCusto = lanc.IdCCusto,
                                     DescriCCusto = centroCusto.DescriCCusto
                                 };
                 return resultado;
@@ -61,19 +62,6 @@ namespace ApiGestaoFinanceira.Services
             }
             return null;
         }
-
-        /*public List<ReadLancamentoDto> RecuperaLancamentos()
-        {
-            List<Lancamento> lancamentos;
-            lancamentos = _context.Lancamentos.ToList();
-
-            if (lancamentos != null)
-            {
-                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
-                return readDto;
-            }
-            return null;
-        }*/
 
         public IEnumerable RecuperaLancamentosPorId(int id)
         {
@@ -87,21 +75,21 @@ namespace ApiGestaoFinanceira.Services
                 List<CentroCusto> centroCustos;
                 centroCustos = _context.CentroCustos.ToList();
 
-                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
+                List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
                 List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
 
-                var resultado = from lancameto in readDto
+                var resultado = from lanc in readLancamentoDto
                                 join centroCusto in readCCustoDto
-                                on lancameto.IdCCusto equals centroCusto.Id
-                                where lancameto.Id == id
+                                on lanc.IdCCusto equals centroCusto.Id
+                                where lanc.Id == id                                
                                 select new
                                 {
-                                    Id = lancameto.Id,
-                                    DataHora = lancameto.DataHora,
-                                    Valor = lancameto.Valor,
-                                    Descricao = lancameto.Descricao,
-                                    Status = lancameto.Status,
-                                    IdCCusto = lancameto.IdCCusto,
+                                    Id = lanc.Id,
+                                    DataHora = lanc.DataHora,
+                                    Valor = lanc.Valor,
+                                    Descricao = lanc.Descricao,
+                                    Status = lanc.Status,
+                                    IdCCusto = lanc.IdCCusto,
                                     DescriCCusto = centroCusto.DescriCCusto
                                 };
                 return resultado;

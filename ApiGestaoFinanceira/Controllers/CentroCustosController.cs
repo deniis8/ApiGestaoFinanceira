@@ -25,7 +25,7 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpGet]
-        public IActionResult RecuperaCentroCustos([FromQuery] int? classificacaoEtaria = null)
+        public IActionResult RecuperaCentroCustos()
         {
             List<ReadCentroCustoDto> readDto = _centroCustoService.RecuperaCentroCustos();
             if (readDto == null) return NotFound();
@@ -58,23 +58,4 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
     }
-    /*{
-        private readonly AppDbContext _appDbContext;
-
-        public LancamentosController(AppDbContext appDbContext)
-        {
-            _appDbContext = appDbContext;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetLancamentos()
-        {
-            return Ok(new
-            {
-                success = true,
-                data = await _appDbContext.Lancamentos.ToListAsync()
-            }
-                );
-        }
-    }*/
 }
