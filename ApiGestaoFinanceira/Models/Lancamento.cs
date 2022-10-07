@@ -26,6 +26,8 @@ namespace ApiGestaoFinanceira.Models
         [Column("ID_CCUSTO")]
         [Required(ErrorMessage = "O campo ID do Centro de Custo é obrigatório")]
         public int IdCCusto { get; set; }
+        [Column("D_E_L_E_T_")]
+        public char Deletado { get; set; }
 
     }
 }

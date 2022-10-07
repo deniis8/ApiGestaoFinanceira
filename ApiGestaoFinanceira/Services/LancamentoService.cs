@@ -1,5 +1,6 @@
 ﻿using ApiGestaoFinanceira.Data;
 using ApiGestaoFinanceira.Data.Dto;
+using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using FluentResults;
@@ -45,6 +46,7 @@ namespace ApiGestaoFinanceira.Services
                 var resultado = from lanc in readLancamentoDto
                                 join centroCusto in readCCustoDto
                                 on lanc.IdCCusto equals centroCusto.Id
+                                where lanc.Deletado != '*'
                                 orderby lanc.DataHora descending
                                 select new
                                 {
@@ -81,7 +83,7 @@ namespace ApiGestaoFinanceira.Services
                 var resultado = from lanc in readLancamentoDto
                                 join centroCusto in readCCustoDto
                                 on lanc.IdCCusto equals centroCusto.Id
-                                where lanc.Id == id                                
+                                where lanc.Id == id && lanc.Deletado != '*'                               
                                 select new
                                 {
                                     Id = lanc.Id,
@@ -109,7 +111,7 @@ namespace ApiGestaoFinanceira.Services
             return Result.Ok();
         }
 
-        public Result DeletaLancamento(int id)
+        /*public Result DeletaLancamento(int id)
         {
             Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
             if (lancamento == null)
@@ -117,6 +119,18 @@ namespace ApiGestaoFinanceira.Services
                 return Result.Fail("Lançamento não encontrado");
             }
             _context.Remove(lancamento);
+            _context.SaveChanges();
+            return Result.Ok();
+        }*/
+
+        public Result DeletaLancamento(int id, DeleteLancamentoDto lancamentoDto)
+        {
+            Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
+            if (lancamento == null)
+            {
+                return Result.Fail("Lançamento não encontrado");
+            }
+            _mapper.Map(lancamentoDto, lancamento);
             _context.SaveChanges();
             return Result.Ok();
         }
