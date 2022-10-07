@@ -1,4 +1,5 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
+using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
@@ -50,10 +51,17 @@ namespace ApiGestaoFinanceira.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        /*[HttpDelete("{id}")]
         public IActionResult DeletaLancamento(int id)
         {
             Result resultado = _lancamentoService.DeletaLancamento(id);
+            if (resultado.IsFailed) return NotFound();
+            return NoContent();
+        }*/
+        [HttpDelete("{id}")]
+        public IActionResult DeletaLancamento(int id, [FromBody] DeleteLancamentoDto lancamentoDto)
+        {
+            Result resultado = _lancamentoService.DeletaLancamento(id, lancamentoDto);
             if (resultado.IsFailed) return NotFound();
             return NoContent();
         }

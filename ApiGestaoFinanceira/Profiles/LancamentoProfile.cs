@@ -1,4 +1,5 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
+using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using System;
@@ -15,6 +16,7 @@ namespace ApiGestaoFinanceira.Profiles
             CreateMap<CreateLancamentoDto, Lancamento>();
             CreateMap<Lancamento, ReadLancamentoDto>();
             CreateMap<UpdateLancamentoDto, Lancamento>();
+            CreateMap<DeleteLancamentoDto, Lancamento>();
         }
     }
 }
