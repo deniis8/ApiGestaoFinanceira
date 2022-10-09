@@ -58,7 +58,7 @@ namespace ApiGestaoFinanceira.Controllers
             if (resultado.IsFailed) return NotFound();
             return NoContent();
         }*/
-        [HttpDelete("{id}")]
+        [HttpPut("del/{id}")]
         public IActionResult DeletaLancamento(int id, [FromBody] DeleteLancamentoDto lancamentoDto)
         {
             Result resultado = _lancamentoService.DeletaLancamento(id, lancamentoDto);
