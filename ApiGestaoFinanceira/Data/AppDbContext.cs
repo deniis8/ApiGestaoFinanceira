@@ -22,16 +22,19 @@ namespace ApiGestaoFinanceira.Data
             .WithMany(c => c.Lancamentos);
         }
         */
-        
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", false, true)
                 .Build();
 
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("ServerConnectionGF"));
+            //optionsBuilder.UseSqlServer(configuration.GetConnectionString("ServerConnectionGF"));
+            optionsBuilder.UseMySql(configuration.GetConnectionString("ServerConnectionGF"));
         }
-    }   
+
+       */
+    }
 }
