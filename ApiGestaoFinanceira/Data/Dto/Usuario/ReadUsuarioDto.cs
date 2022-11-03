@@ -1,32 +1,26 @@
-﻿using System;
+﻿using ApiGestaoFinanceira.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace ApiGestaoFinanceira.Models
+namespace ApiGestaoFinanceira.Data.Dto.Usuario
 {
-    public class Usuario
+    public class ReadUsuarioDto
     {
         [Key]
-        [Required]
-        [Column("ID_USUARIO")]
+        [Column("ID_LANC")]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O campo Nome Completo é obrigatório")]
         [Column("NOME_COMPLETO")]
         public string NomeCompleto { get; set; }
 
-        [Required(ErrorMessage = "O campo Email é obrigatório")]
         [Column("EMAIL")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "O campo Senha é obrigatório")]
         [Column("SENHA")]
         public string Senha { get; set; }
 
-        [Required(ErrorMessage = "O campo Data Criação é obrigatório")]
         [Column("DATA_CRIACAO")]
         public DateTime DataCriacao { get; set; }
 
