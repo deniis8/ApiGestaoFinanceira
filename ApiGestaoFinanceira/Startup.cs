@@ -38,6 +38,7 @@ namespace ApiGestaoFinanceira
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<LancamentoService, LancamentoService>();
             services.AddScoped<CentroCustoService, CentroCustoService>();
+            services.AddScoped<UsuarioService, UsuarioService>();
             services.AddCors();
         }
 

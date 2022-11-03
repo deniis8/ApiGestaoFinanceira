@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ApiGestaoFinanceira.Data.Dto
+namespace ApiGestaoFinanceira.Data.Dto.Lancamento
 {
     public class ReadLancamentoDto
     {
