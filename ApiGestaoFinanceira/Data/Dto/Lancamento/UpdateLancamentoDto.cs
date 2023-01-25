@@ -27,10 +27,6 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
         [Column("DATA_CRIACAO")]
         public DateTime DataCriacao { get; set; }
 
-        //[Required(ErrorMessage = "O campo Id Usuário é obrigatório")]
-        [Column("ID_USUARIO")]
-        public int IdUsuario { get; set; }
-
         [Column("D_E_L_E_T_")]
         public char Deletado { get; set; }
     }

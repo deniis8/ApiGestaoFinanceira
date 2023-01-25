@@ -57,7 +57,8 @@ namespace ApiGestaoFinanceira.Services
                                     Descricao = lanc.Descricao,
                                     Status = lanc.Status,
                                     IdCCusto = lanc.IdCCusto,
-                                    DescriCCusto = centroCusto.DescriCCusto
+                                    DescriCCusto = centroCusto.DescriCCusto,
+                                    IdUsuario = lanc.IdUsuario
                                 };
                 return resultado;
 
