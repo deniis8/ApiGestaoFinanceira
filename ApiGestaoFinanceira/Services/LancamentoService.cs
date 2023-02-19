@@ -31,7 +31,7 @@ namespace ApiGestaoFinanceira.Services
             return _mapper.Map<ReadLancamentoDto>(lancamento);
         }
 
-        public IEnumerable RecuperaLancamentos()
+        public IEnumerable RecuperaLancamentosPorData(string data)
         {
             List<Lancamento> lancamentos;
             lancamentos = _context.Lancamentos.ToList();
@@ -47,7 +47,7 @@ namespace ApiGestaoFinanceira.Services
                 var resultado = from lanc in readLancamentoDto
                                 join centroCusto in readCCustoDto
                                 on lanc.IdCCusto equals centroCusto.Id
-                                where lanc.Deletado != '*'
+                                where lanc.Deletado != '*' && lanc.DataHora >= DateTime.Parse(data)
                                 orderby lanc.DataHora descending
                                 select new
                                 {

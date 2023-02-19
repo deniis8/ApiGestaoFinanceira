@@ -20,7 +20,7 @@ namespace ApiGestaoFinanceira
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseUrls(urls: "http://192.168.0.101:5000");
                 });
     }
 }
