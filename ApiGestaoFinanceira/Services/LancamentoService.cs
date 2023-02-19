@@ -47,7 +47,7 @@ namespace ApiGestaoFinanceira.Services
                 var resultado = from lanc in readLancamentoDto
                                 join centroCusto in readCCustoDto
                                 on lanc.IdCCusto equals centroCusto.Id
-                                where lanc.Deletado != '*' && lanc.DataHora >= DateTime.Parse(data)
+                                where lanc.Deletado != '*' && string.IsNullOrEmpty(data) ? lanc.DataHora >= DateTime.Parse(DateTime.Now.AddMonths(-1).ToString("dd/MM/yyyy")) : lanc.DataHora >= DateTime.Parse(data)
                                 orderby lanc.DataHora descending
                                 select new
                                 {
