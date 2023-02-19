@@ -3,6 +3,7 @@ using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -26,10 +27,10 @@ namespace ApiGestaoFinanceira.Controllers
             return CreatedAtAction(nameof(RecuperaLancamentosPorId), new { Id = readDto.Id }, readDto);
         }
 
-        [HttpGet]
-        public IActionResult RecuperaLancamentos()
+        [HttpGet("data/{data}")]
+        public IActionResult RecuperaLancamentos(string data)
         {
-            IEnumerable readDto = _lancamentoService.RecuperaLancamentos();
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(data);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
