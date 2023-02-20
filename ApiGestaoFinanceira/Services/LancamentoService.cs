@@ -33,6 +33,9 @@ namespace ApiGestaoFinanceira.Services
 
         public IEnumerable RecuperaLancamentosPorData(string data)
         {
+            if (string.IsNullOrEmpty(data))
+                data = DateTime.Now.AddMonths(-1).ToString("dd/MM/yyyy");
+           
             List<Lancamento> lancamentos;
             lancamentos = _context.Lancamentos.ToList();
 

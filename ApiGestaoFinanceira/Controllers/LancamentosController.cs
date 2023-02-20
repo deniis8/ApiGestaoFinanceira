@@ -35,6 +35,14 @@ namespace ApiGestaoFinanceira.Controllers
             return Ok(readDto);
         }
 
+        [HttpGet("data")]
+        public IActionResult RecuperaLancamentosMesAnterior()
+        {
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(null);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
+        }
+
         [HttpGet("{id}")]
         public IActionResult RecuperaLancamentosPorId(int id)
         {
