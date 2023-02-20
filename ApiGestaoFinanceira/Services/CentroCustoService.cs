@@ -31,7 +31,7 @@ namespace ApiGestaoFinanceira.Services
         public List<ReadCentroCustoDto> RecuperaCentroCustos()
         {
             List<CentroCusto> centroCustos;
-            centroCustos = _context.CentroCustos.ToList();
+            centroCustos = _context.CentroCustos.OrderBy(cc => cc.DescriCCusto).ToList();
 
             if (centroCustos != null)
             {
