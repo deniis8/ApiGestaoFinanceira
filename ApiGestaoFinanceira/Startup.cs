@@ -54,6 +54,7 @@ namespace ApiGestaoFinanceira
             services.AddScoped<CentroCustoService, CentroCustoService>();
             services.AddScoped<UsuarioService, UsuarioService>();
             services.AddScoped<GastosMensaisService, GastosMensaisService>();
+            services.AddScoped<SaldosInvestimentosService, SaldosInvestimentosService>();
             services.AddCors();
         }
 
