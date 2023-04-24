@@ -24,9 +24,23 @@ namespace ApiGestaoFinanceira
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Console.WriteLine("Escolha um ambiente: ");
+            Console.WriteLine("01 - Prod");
+            Console.WriteLine("02 - Dev");
+            string opc = Console.ReadLine();
+            string ambiente = "";
+
+            if(opc == "01")
+            {
+                ambiente = "ServerConnectionGF";
+            }
+            else if(opc == "02")
+            {
+                ambiente = "ServerConnectionGFDev";
+            }
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(
-                       Configuration.GetConnectionString("ServerConnectionGF"),
+                       Configuration.GetConnectionString(ambiente),
                        mySqlOptions => mySqlOptions.ServerVersion(new Version(10, 6, 10), ServerType.MariaDb)
                    )
                );
@@ -39,6 +53,8 @@ namespace ApiGestaoFinanceira
             services.AddScoped<LancamentoService, LancamentoService>();
             services.AddScoped<CentroCustoService, CentroCustoService>();
             services.AddScoped<UsuarioService, UsuarioService>();
+            services.AddScoped<GastosMensaisService, GastosMensaisService>();
+            services.AddScoped<SaldosInvestimentosService, SaldosInvestimentosService>();
             services.AddCors();
         }
 
