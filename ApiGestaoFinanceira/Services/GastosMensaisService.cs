@@ -25,7 +25,7 @@ namespace ApiGestaoFinanceira.Services
         public IEnumerable getGastosMensaisApartirDe(string data)
         {
             if (string.IsNullOrEmpty(data))
-                data = DateTime.Now.AddMonths(-12).ToString("dd/MM/yyyy");
+                data = Convert.ToString(DateTime.Now.AddMonths(-12).ToString("yyyy-MM-dd"));
 
             List<GastosMensais> gastosMensais;
             gastosMensais = _context.GastosMensais.ToList();
