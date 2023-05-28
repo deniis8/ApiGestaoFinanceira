@@ -38,7 +38,7 @@ namespace ApiGestaoFinanceira
             {
                 ambiente = "ServerConnectionGFDev";
             }*/
-            string ambiente = "ServerConnectionGFOrangePi";
+            string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(
@@ -80,7 +80,7 @@ namespace ApiGestaoFinanceira
 
             app.UseAuthorization();
             app.UseCors(
-        options => options.WithOrigins("http://localhost:8100").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+        options => options.WithOrigins("http://localhost:8100").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin() //AllowAnyOrigin().AllowAnyHeader()
     );
 
             app.UseEndpoints(endpoints =>
