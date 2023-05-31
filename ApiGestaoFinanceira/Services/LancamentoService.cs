@@ -70,7 +70,7 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public IEnumerable RecuperaLancamentosPorId(int id)
+        public Object RecuperaLancamentosPorId(int id)
         {
             Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
 
@@ -85,7 +85,7 @@ namespace ApiGestaoFinanceira.Services
                 List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
                 List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);*/
 
-                var resultado = from lanc in _context.Lancamentos
+                var resultado = (from lanc in _context.Lancamentos
                                 join centroCusto in _context.CentroCustos
                                 on lanc.IdCCusto equals centroCusto.Id
                                 where lanc.Id == id && lanc.Deletado != '*'                               
@@ -98,7 +98,8 @@ namespace ApiGestaoFinanceira.Services
                                     Status = lanc.Status,
                                     IdCCusto = lanc.IdCCusto,
                                     DescriCCusto = centroCusto.DescriCCusto
-                                };
+                                }).FirstOrDefault();
+
                 return resultado;
             }
             return null;            

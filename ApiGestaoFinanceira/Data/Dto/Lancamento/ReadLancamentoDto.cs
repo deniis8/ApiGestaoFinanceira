@@ -39,5 +39,7 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
 
         [Column("D_E_L_E_T_")]
         public char Deletado { get; set; }
+
+        public string descriCCusto { get; set; }
     }
 }

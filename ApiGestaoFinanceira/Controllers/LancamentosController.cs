@@ -46,7 +46,7 @@ namespace ApiGestaoFinanceira.Controllers
         [HttpGet("{id}")]
         public IActionResult RecuperaLancamentosPorId(int id)
         {
-            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorId(id);
+            Object readDto = _lancamentoService.RecuperaLancamentosPorId(id);
             if (readDto == null) return NotFound();
             return Ok(readDto);
 
