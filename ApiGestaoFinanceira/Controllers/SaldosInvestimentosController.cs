@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Microsoft.AspNetCore.Mvc;
 using ApiGestaoFinanceira.Services;
+using System;
 
 namespace ApiGestaoFinanceira.Controllers
 {
@@ -17,7 +18,7 @@ namespace ApiGestaoFinanceira.Controllers
         [HttpGet()]
         public IActionResult getAllSaldosInvestimentos()
         {
-            IEnumerable readDto = _saldosInvestimentosService.getSaldosInvestimentos();
+            Object readDto = _saldosInvestimentosService.getSaldosInvestimentos();
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
