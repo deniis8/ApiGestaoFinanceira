@@ -5,7 +5,9 @@ using ApiGestaoFinanceira.Data.Dto.GastosMensais;
 
 namespace ApiGestaoFinanceira.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
+    [Produces("application/json")]
     public class GastosMensaisController : ControllerBase
     {
         private GastosMensaisService _gastosMensaisService;
@@ -26,7 +28,7 @@ namespace ApiGestaoFinanceira.Controllers
         [HttpGet()]
         public IActionResult getAllGastosMensais(string data)
         {
-            IEnumerable readDto = _gastosMensaisService.getGastosMensaisApartirDe(data);
+            object readDto = _gastosMensaisService.getGastosMensaisApartirDe(data);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
