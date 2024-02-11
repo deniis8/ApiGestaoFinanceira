@@ -30,8 +30,8 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
         public string Status { get; set; }
 
         //[Required(ErrorMessage = "O campo Data Criação é obrigatório")]
-        [Column("DATA_CRIACAO")]
-        public DateTime DataCriacao { get; set; }
+        //[Column("DATA_CRIACAO")]
+        //public DateTime DataCriacao { get; set; }
 
         //[Required(ErrorMessage = "O campo Id Usuário é obrigatório")]
         [Column("ID_USUARIO")]
@@ -39,5 +39,7 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
 
         [Column("D_E_L_E_T_")]
         public char Deletado { get; set; }
+
+        public string descriCCusto { get; set; }
     }
 }

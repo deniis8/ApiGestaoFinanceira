@@ -24,7 +24,7 @@ namespace ApiGestaoFinanceira
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine("Escolha um ambiente: ");
+            /*Console.WriteLine("Escolha um ambiente: ");
             Console.WriteLine("01 - Prod");
             Console.WriteLine("02 - Dev");
             string opc = Console.ReadLine();
@@ -37,7 +37,10 @@ namespace ApiGestaoFinanceira
             else if(opc == "02")
             {
                 ambiente = "ServerConnectionGFDev";
-            }
+            }*/
+            string ambiente = "ServerConnectionGFOrangePi";
+            //string ambiente = "ServerConnectionGFDev";
+
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(
                        Configuration.GetConnectionString(ambiente),
@@ -78,7 +81,7 @@ namespace ApiGestaoFinanceira
 
             app.UseAuthorization();
             app.UseCors(
-        options => options.WithOrigins("http://localhost:8100").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin()
+        options => options.WithOrigins("http://localhost:8100").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin() //AllowAnyOrigin().AllowAnyHeader()
     );
 
             app.UseEndpoints(endpoints =>

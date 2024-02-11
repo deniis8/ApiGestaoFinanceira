@@ -34,8 +34,8 @@ namespace ApiGestaoFinanceira.Services
         public IEnumerable RecuperaLancamentosPorData(string data)
         {
             if (string.IsNullOrEmpty(data))
-                data = DateTime.Now.AddMonths(-1).ToString("dd/MM/yyyy");
-           
+                data = Convert.ToString(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
+
             List<Lancamento> lancamentos;
             lancamentos = _context.Lancamentos.ToList();
 
@@ -70,12 +70,12 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public IEnumerable RecuperaLancamentosPorId(int id)
+        public Object RecuperaLancamentosPorId(int id)
         {
             Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
 
             if (lancamento != null)
-            {
+            {/*
                 List<Lancamento> lancamentos;
                 lancamentos = _context.Lancamentos.ToList();
                 //Centro de Custo
@@ -83,10 +83,10 @@ namespace ApiGestaoFinanceira.Services
                 centroCustos = _context.CentroCustos.ToList();
 
                 List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
-                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
+                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);*/
 
-                var resultado = from lanc in readLancamentoDto
-                                join centroCusto in readCCustoDto
+                var resultado = (from lanc in _context.Lancamentos
+                                join centroCusto in _context.CentroCustos
                                 on lanc.IdCCusto equals centroCusto.Id
                                 where lanc.Id == id && lanc.Deletado != '*'                               
                                 select new
@@ -98,7 +98,8 @@ namespace ApiGestaoFinanceira.Services
                                     Status = lanc.Status,
                                     IdCCusto = lanc.IdCCusto,
                                     DescriCCusto = centroCusto.DescriCCusto
-                                };
+                                }).FirstOrDefault();
+
                 return resultado;
             }
             return null;            

@@ -21,14 +21,14 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public List<ReadSaldosInvestimentos> getSaldosInvestimentos()
+        public Object getSaldosInvestimentos()
         {
             List<SaldosInvestimentos> saldosInvestimentos;
             saldosInvestimentos = _context.SaldosInvestimentos.ToList();
             if (saldosInvestimentos != null)
             {
                 List<ReadSaldosInvestimentos> readDto = _mapper.Map<List<ReadSaldosInvestimentos>>(saldosInvestimentos);
-                return readDto;
+                return readDto.FirstOrDefault();
             }
             return null;
 
