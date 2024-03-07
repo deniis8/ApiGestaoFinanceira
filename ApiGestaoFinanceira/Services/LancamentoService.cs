@@ -117,18 +117,6 @@ namespace ApiGestaoFinanceira.Services
             return Result.Ok();
         }
 
-        /*public Result DeletaLancamento(int id)
-        {
-            Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
-            if (lancamento == null)
-            {
-                return Result.Fail("Lançamento não encontrado");
-            }
-            _context.Remove(lancamento);
-            _context.SaveChanges();
-            return Result.Ok();
-        }*/
-
         public Result DeletaLancamento(int id, DeleteLancamentoDto lancamentoDto)
         {
             Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
