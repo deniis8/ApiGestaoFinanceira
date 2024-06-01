@@ -30,7 +30,7 @@ namespace ApiGestaoFinanceira.Services
                 data = Convert.ToString(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
 
             List<GastosCentroCusto> gastosCentroCusto;
-            gastosCentroCusto = _context.GastosCentroCustos.Where(cc => cc.DataHora >= DateTime.Parse(data)).ToList();
+            gastosCentroCusto = _context.GastosCentroCustos.Where(cc => cc.DataHora >= DateTime.Parse(data)).Take(15).ToList();
 
             if (gastosCentroCusto != null)
             {
