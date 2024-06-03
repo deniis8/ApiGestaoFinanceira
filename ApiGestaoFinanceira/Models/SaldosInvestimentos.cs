@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiGestaoFinanceira.Models
 {
+    [Table("VW_SALDOS_INVESTIMENTOS")]
     public class SaldosInvestimentos
     {
         [Key]
@@ -18,9 +19,6 @@ namespace ApiGestaoFinanceira.Models
 
         [Column("INVESTIMENTO_VARIAVEL", TypeName = "decimal(10,2)")]
         public decimal InvestimentoVariavel { get; set; }
-
-        [Column("DATA_CRIACAO")]
-        public DateTime DataHora { get; set; }
 
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }
