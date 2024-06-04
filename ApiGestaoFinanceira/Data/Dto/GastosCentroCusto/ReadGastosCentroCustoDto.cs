@@ -1,5 +1,4 @@
-﻿using ApiGestaoFinanceira.Models;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiGestaoFinanceira.Data.Dto.GastosMensais
@@ -16,6 +15,9 @@ namespace ApiGestaoFinanceira.Data.Dto.GastosMensais
 
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }
+
+        [Column("MES_ANO")]
+        public string MesAno { get; set; }
 
 
         [Column("ID_USUARIO")]

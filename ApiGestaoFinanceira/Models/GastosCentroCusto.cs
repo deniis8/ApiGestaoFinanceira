@@ -24,6 +24,10 @@ namespace ApiGestaoFinanceira.Models
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }
 
+        [Required(ErrorMessage = "O campo Mês Ano é obrigatório")]
+        [Column("MES_ANO")]
+        public string MesAno { get; set; }
+
         [Required(ErrorMessage = "O campo Id Usuário é obrigatório")]
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }

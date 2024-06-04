@@ -51,7 +51,7 @@ namespace ApiGestaoFinanceira
             services.AddControllers();
             //services.AddDbContext<AppDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("ServerConnectionGF")));
             //services.AddDbContext<AppDbContext>(option => option.UseMySql(Configuration.GetConnectionString("ServerConnectionGF")));
-
+           
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<LancamentoService, LancamentoService>();
             services.AddScoped<CentroCustoService, CentroCustoService>();
@@ -65,6 +65,7 @@ namespace ApiGestaoFinanceira
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -20,6 +20,14 @@ namespace ApiGestaoFinanceira.Controllers
             _gastosCentroCustoService = gastosCentroCustoService;
         }
 
+        [HttpGet("data")]
+        public IActionResult RecuperaCentroCustosMesAnterior()
+        {
+            List<ReadGastosCentroCustoDto> readDto = _gastosCentroCustoService.RecuperaGastosCentroCusto(null);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
+        }
+
         [HttpGet("data/{data}")]
         public IActionResult RecuperaCentroCustos(string data)
         {
@@ -28,13 +36,13 @@ namespace ApiGestaoFinanceira.Controllers
             return Ok(readDto);
         }
 
-        [HttpGet("data")]
-        public IActionResult RecuperaCentroCustosMesAnterior()
+        [HttpGet("mesAno/{mesAno}")]
+        public IActionResult RecuperaCentroCustosMesAno(string mesAno)
         {
-            List<ReadGastosCentroCustoDto> readDto = _gastosCentroCustoService.RecuperaGastosCentroCusto(null);
+            List<ReadGastosCentroCustoDto> readDto = _gastosCentroCustoService.RecuperaGastosCentroCustoMesAno(mesAno);
             if (readDto == null) return NotFound();
             return Ok(readDto);
-        }
+        }       
 
     }
 }

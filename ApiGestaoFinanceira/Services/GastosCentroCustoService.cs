@@ -40,5 +40,18 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
+        public List<ReadGastosCentroCustoDto> RecuperaGastosCentroCustoMesAno(string mesAno)
+        {
+            List<GastosCentroCusto> gastosCentroCusto;
+            gastosCentroCusto = _context.GastosCentroCustos.Where(cc => cc.MesAno == mesAno).Take(15).ToList();
+
+            if (gastosCentroCusto != null)
+            {
+                List<ReadGastosCentroCustoDto> readDto = _mapper.Map<List<ReadGastosCentroCustoDto>>(gastosCentroCusto);
+                return readDto;
+            }
+            return null;
+        }
+
     }
 }
