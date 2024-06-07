@@ -16,6 +16,14 @@ namespace ApiGestaoFinanceira.Models
         [Column("VALOR", TypeName = "decimal(10,2)")]
         public decimal Valor { get; set; }
 
+        [Required(ErrorMessage = "O campo Valor Mes Anterior é obrigatório")]
+        [Column("VALOR_MES_ANTERIOR", TypeName = "decimal(10,2)")]
+        public decimal ValorMesAnterior { get; set; }
+
+        [Required(ErrorMessage = "O campo Descrição é obrigatório")]
+        [Column("MES_ANO_MES_ANTERIOR")]
+        public string MesAnoMesAnterior { get; set; }
+
         [Required(ErrorMessage = "O campo Descrição é obrigatório")]
         [Column("DESCRICAO_CENTRO_CUSTO")]
         public string Descricao { get; set; }

@@ -1,5 +1,6 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
 using ApiGestaoFinanceira.Data.Dto.CentroCusto;
+using ApiGestaoFinanceira.Data.Dto.GastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.GastosMensais;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Services;

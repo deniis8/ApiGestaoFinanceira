@@ -32,13 +32,13 @@ namespace ApiGestaoFinanceira
 
             if(opc == "01")
             {
-                ambiente = "ServerConnectionGF";
+                ambiente = "ServerConnectionGFOrangePi";
             }
             else if(opc == "02")
             {
                 ambiente = "ServerConnectionGFDev";
             }*/
-            string ambiente = "ServerConnectionGFOrangePi";
+            string ambiente = "ServerConnectionGFDev";
             //string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options
