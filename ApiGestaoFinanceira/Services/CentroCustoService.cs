@@ -31,7 +31,7 @@ namespace ApiGestaoFinanceira.Services
         public List<ReadCentroCustoDto> RecuperaCentroCustos()
         {
             List<CentroCusto> centroCustos;
-            centroCustos = _context.CentroCustos.OrderBy(cc => cc.DescriCCusto).ToList();
+            centroCustos = _context.CentroCustos.Where(cc => cc.Deletado.ToString() == "").OrderBy(cc => cc.DescriCCusto).ToList();
 
             if (centroCustos != null)
             {
@@ -65,16 +65,17 @@ namespace ApiGestaoFinanceira.Services
             return Result.Ok();
         }
 
-        public Result DeletaCentroCusto(int id)
+        public Result DeletaCentroCusto(int id, DeleteCentroCustoDto centroCustoDto)
         {
             CentroCusto centroCusto = _context.CentroCustos.FirstOrDefault(centroCusto => centroCusto.Id == id);
             if (centroCusto == null)
             {
                 return Result.Fail("Centro de Custo não encontrado");
             }
-            _context.Remove(centroCusto);
+            _mapper.Map(centroCustoDto, centroCusto);
             _context.SaveChanges();
             return Result.Ok();
         }
+
     }
 }

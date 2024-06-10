@@ -1,5 +1,4 @@
 ﻿using ApiGestaoFinanceira.Data;
-using ApiGestaoFinanceira.Data.Dto;
 using ApiGestaoFinanceira.Data.Dto.CentroCusto;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Models;
@@ -64,8 +63,6 @@ namespace ApiGestaoFinanceira.Services
                                     IdUsuario = lanc.IdUsuario
                                 };
                 return resultado;
-
-
             }
             return null;
         }
@@ -86,23 +83,23 @@ namespace ApiGestaoFinanceira.Services
                 List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);*/
 
                 var resultado = (from lanc in _context.Lancamentos
-                                join centroCusto in _context.CentroCustos
-                                on lanc.IdCCusto equals centroCusto.Id
-                                where lanc.Id == id && lanc.Deletado != '*'                               
-                                select new
-                                {
-                                    Id = lanc.Id,
-                                    DataHora = lanc.DataHora,
-                                    Valor = lanc.Valor,
-                                    Descricao = lanc.Descricao,
-                                    Status = lanc.Status,
-                                    IdCCusto = lanc.IdCCusto,
-                                    DescriCCusto = centroCusto.DescriCCusto
-                                }).FirstOrDefault();
+                                 join centroCusto in _context.CentroCustos
+                                 on lanc.IdCCusto equals centroCusto.Id
+                                 where lanc.Id == id && lanc.Deletado != '*'
+                                 select new
+                                 {
+                                     Id = lanc.Id,
+                                     DataHora = lanc.DataHora,
+                                     Valor = lanc.Valor,
+                                     Descricao = lanc.Descricao,
+                                     Status = lanc.Status,
+                                     IdCCusto = lanc.IdCCusto,
+                                     DescriCCusto = centroCusto.DescriCCusto
+                                 }).FirstOrDefault();
 
                 return resultado;
             }
-            return null;            
+            return null;
         }
 
         public Result AtualizaLancamento(int id, UpdateLancamentoDto lancamentoDto)
@@ -116,18 +113,6 @@ namespace ApiGestaoFinanceira.Services
             _context.SaveChanges();
             return Result.Ok();
         }
-
-        /*public Result DeletaLancamento(int id)
-        {
-            Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
-            if (lancamento == null)
-            {
-                return Result.Fail("Lançamento não encontrado");
-            }
-            _context.Remove(lancamento);
-            _context.SaveChanges();
-            return Result.Ok();
-        }*/
 
         public Result DeletaLancamento(int id, DeleteLancamentoDto lancamentoDto)
         {

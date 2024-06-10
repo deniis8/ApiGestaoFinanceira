@@ -1,5 +1,6 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
 using ApiGestaoFinanceira.Data.Dto.CentroCusto;
+using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
@@ -50,10 +51,10 @@ namespace ApiGestaoFinanceira.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult DeletaCentroCusto(int id)
+        [HttpPut("del/{id}")]
+        public IActionResult DeletaCentroCusto(int id, [FromBody] DeleteCentroCustoDto centroCustoDto)
         {
-            Result resultado = _centroCustoService.DeletaCentroCusto(id);
+            Result resultado = _centroCustoService.DeletaCentroCusto(id, centroCustoDto);
             if (resultado.IsFailed) return NotFound();
             return NoContent();
         }

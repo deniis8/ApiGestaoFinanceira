@@ -1,5 +1,6 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
 using ApiGestaoFinanceira.Data.Dto.CentroCusto;
+using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using System;
@@ -16,6 +17,7 @@ namespace ApiGestaoFinanceira.Profiles
             CreateMap<CreateCentroCustoDto, CentroCusto>();
             CreateMap<CentroCusto, ReadCentroCustoDto>();
             CreateMap<UpdateCentroCustoDto, CentroCusto>();
+            CreateMap<DeleteCentroCustoDto, CentroCusto>();
         }
     }
 }
