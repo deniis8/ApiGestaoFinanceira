@@ -17,8 +17,8 @@ namespace ApiGestaoFinanceira.Models
         [Required(ErrorMessage = "O campo Descrição do Centro de Custo é obrigatório")]
         [Column("DESCRI")]
         public string DescriCCusto { get; set; }
-
-        [Required(ErrorMessage = "O campo Data Criação é obrigatório")]
+      
+        [Required(ErrorMessage = "O campo Data da Criação é obrigatório")]
         [Column("DATA_CRIACAO")]
         public DateTime DataCriacao { get; set; }
 
