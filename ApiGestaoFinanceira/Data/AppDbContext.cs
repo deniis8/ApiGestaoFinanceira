@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using System.Reflection.Emit;
 
 namespace ApiGestaoFinanceira.Data
 {
@@ -23,14 +24,12 @@ namespace ApiGestaoFinanceira.Data
 
         }
 
-        /*
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Lancamento>()
-            .HasOne(l => l.CentroCusto)
-            .WithMany(c => c.Lancamentos);
+            builder.Entity<GastosCentroCusto>().HasNoKey();
         }
-        */
+        
 
 
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

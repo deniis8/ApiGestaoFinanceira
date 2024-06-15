@@ -3,11 +3,13 @@ using ApiGestaoFinanceira.Data.Dto.CentroCusto;
 using ApiGestaoFinanceira.Data.Dto.GastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.GastosMensais;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
+using ApiGestaoFinanceira.Models;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ApiGestaoFinanceira.Controllers
 {
@@ -37,13 +39,19 @@ namespace ApiGestaoFinanceira.Controllers
             return Ok(readDto);
         }
 
-        [HttpGet("mesAno/{mesAno}")]
+        /*[HttpGet("mesAno/{mesAno}")]
         public IActionResult RecuperaCentroCustosMesAno(string mesAno)
         {
             List<ReadGastosCentroCustoDto> readDto = _gastosCentroCustoService.RecuperaGastosCentroCustoMesAno(mesAno);
             if (readDto == null) return NotFound();
             return Ok(readDto);
-        }       
+        }*/
+        [HttpGet("mesAno/{mesAno}")]
+        public async Task<ActionResult<IEnumerable<Lancamento>>> GetLancamentos(string mesAno)
+        {
+            var lancamentos = await _gastosCentroCustoService.RecuperaGastosCentroCustoMesAno(mesAno);
+            return Ok(lancamentos);
+        }
 
     }
 }
