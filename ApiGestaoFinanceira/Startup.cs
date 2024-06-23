@@ -25,8 +25,8 @@ namespace ApiGestaoFinanceira
         public void ConfigureServices(IServiceCollection services)
         {
            
-            //string ambiente = "ServerConnectionGFOrangePi";
             string ambiente = "ServerConnectionGFOrangePi";
+            //string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(

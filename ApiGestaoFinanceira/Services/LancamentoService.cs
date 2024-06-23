@@ -62,16 +62,27 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public IEnumerable RecuperaLancamentosDataDeAte(string dataDe, string dataAte)
+        public IEnumerable RecuperaLancamentosDataDeAte(string dataDe, string dataAte, string status, int idCentroCusto)
         {
-            List<Lancamento> lancamento;
-            lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe) && l.DataHora <= DateTime.Parse(dataAte)).ToList();
+            List<Lancamento> lancamento;            
 
-            if (lancamento != null)
+            if ((dataDe != null && dataAte != null))
             {
-                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamento);
-                return readDto;
-            }
+                if(idCentroCusto == 0)
+                {
+                    lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
+                }
+                else
+                {
+                    lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
+                }
+
+                if (lancamento != null)
+                {
+                    List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamento);
+                    return readDto;
+                }
+            }            
             return null;
         }
 
