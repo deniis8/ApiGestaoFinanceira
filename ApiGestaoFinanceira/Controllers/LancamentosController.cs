@@ -1,12 +1,9 @@
-﻿using ApiGestaoFinanceira.Data.Dto;
-using ApiGestaoFinanceira.Data.Dto.DetalhamentoGastosCentroCusto;
-using ApiGestaoFinanceira.Data.Dto.Lancamento;
+﻿using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace ApiGestaoFinanceira.Controllers
 {
@@ -21,7 +18,6 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
         public IActionResult AdicionaLancamento([FromBody] CreateLancamentoDto lancamentoDto)
         {
             ReadLancamentoDto readDto = _lancamentoService.AdicionaLancamento(lancamentoDto);
@@ -47,7 +43,7 @@ namespace ApiGestaoFinanceira.Controllers
         [HttpGet("dataDeAte")]
         public IActionResult RecuperaLancamentosDeAte([FromQuery] string dataDe, string dataAte)
         {
-            Object readDto = _lancamentoService.RecuperaLancamentosDataDeAte(dataDe, dataAte);
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosDataDeAte(dataDe, dataAte);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
@@ -58,7 +54,6 @@ namespace ApiGestaoFinanceira.Controllers
             Object readDto = _lancamentoService.RecuperaLancamentosPorId(id);
             if (readDto == null) return NotFound();
             return Ok(readDto);
-
         }
 
         [HttpPut("{id}")]
@@ -76,6 +71,5 @@ namespace ApiGestaoFinanceira.Controllers
             if (resultado.IsFailed) return NotFound();
             return NoContent();
         }
-
     }
 }
