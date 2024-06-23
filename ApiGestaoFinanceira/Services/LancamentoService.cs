@@ -1,6 +1,7 @@
 ﻿using ApiGestaoFinanceira.Data;
 using ApiGestaoFinanceira.Data.Dto.CentroCusto;
 using ApiGestaoFinanceira.Data.Dto.DetalhamentoGastosCentroCusto;
+using ApiGestaoFinanceira.Data.Dto.GastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
@@ -37,103 +38,39 @@ namespace ApiGestaoFinanceira.Services
             if (string.IsNullOrEmpty(data))
                 data = Convert.ToString(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
 
-            List<Lancamento> lancamentos;
-            lancamentos = _context.Lancamentos.ToList();
+            List<Lancamento> lancamento;
+            lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(data)).ToList();
 
-            //Centro de Custo
-            List<CentroCusto> centroCustos;
-            centroCustos = _context.CentroCustos.ToList();
-
-            if (lancamentos != null)
+            if (lancamento != null)
             {
-                List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
-                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
-                var resultado = from lanc in readLancamentoDto
-                                join centroCusto in readCCustoDto
-                                on lanc.IdCCusto equals centroCusto.Id
-                                where lanc.Deletado != '*' && lanc.DataHora >= DateTime.Parse(data)
-                                orderby lanc.DataHora descending
-                                select new
-                                {
-                                    Id = lanc.Id,
-                                    DataHora = lanc.DataHora,
-                                    Valor = lanc.Valor,
-                                    Descricao = lanc.Descricao,
-                                    Status = lanc.Status,
-                                    IdCCusto = lanc.IdCCusto,
-                                    DescriCCusto = centroCusto.DescriCCusto,
-                                    IdUsuario = lanc.IdUsuario
-                                };
-                return resultado;
+                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamento);
+                return readDto;
             }
             return null;
         }
 
         public Object RecuperaLancamentosPorId(int id)
         {
-            Lancamento lancamento = _context.Lancamentos.FirstOrDefault(lancamento => lancamento.Id == id);
+            Lancamento lancamento;
+            lancamento = _context.Lancamentos.FirstOrDefault(l => l.Id == id);
 
             if (lancamento != null)
-            {/*
-                List<Lancamento> lancamentos;
-                lancamentos = _context.Lancamentos.ToList();
-                //Centro de Custo
-                List<CentroCusto> centroCustos;
-                centroCustos = _context.CentroCustos.ToList();
-
-                List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
-                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);*/
-
-                var resultado = (from lanc in _context.Lancamentos
-                                 join centroCusto in _context.CentroCustos
-                                 on lanc.IdCCusto equals centroCusto.Id
-                                 where lanc.Id == id && lanc.Deletado != '*'
-                                 select new
-                                 {
-                                     Id = lanc.Id,
-                                     DataHora = lanc.DataHora,
-                                     Valor = lanc.Valor,
-                                     Descricao = lanc.Descricao,
-                                     Status = lanc.Status,
-                                     IdCCusto = lanc.IdCCusto,
-                                     DescriCCusto = centroCusto.DescriCCusto
-                                 }).FirstOrDefault();
-
-                return resultado;
+            {
+                ReadLancamentoDto readDto = _mapper.Map<ReadLancamentoDto>(lancamento);
+                return readDto;
             }
             return null;
         }
 
-        public Object RecuperaLancamentosDataDeAte(string dataDe, string dataAte)
+        public IEnumerable RecuperaLancamentosDataDeAte(string dataDe, string dataAte)
         {
-            List<Lancamento> lancamentos;
-            lancamentos = _context.Lancamentos.ToList();
+            List<Lancamento> lancamento;
+            lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe) && l.DataHora <= DateTime.Parse(dataAte)).ToList();
 
-            //Centro de Custo
-            List<CentroCusto> centroCustos;
-            centroCustos = _context.CentroCustos.ToList();
-
-            if (lancamentos != null)
+            if (lancamento != null)
             {
-                List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
-                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
-                var resultado = from lanc in readLancamentoDto
-                                join centroCusto in readCCustoDto
-                                on lanc.IdCCusto equals centroCusto.Id
-                                where lanc.Deletado != '*' && lanc.DataHora >= DateTime.Parse(dataDe) && lanc.DataHora <= DateTime.Parse(dataAte)
-                                orderby lanc.DataHora descending
-                                select new
-                                {
-                                    Id = lanc.Id,
-                                    DataHora = lanc.DataHora,
-                                    Valor = lanc.Valor,
-                                    Descricao = lanc.Descricao,
-                                    Status = lanc.Status,
-                                    IdCCusto = lanc.IdCCusto,
-                                    DescriCCusto = centroCusto.DescriCCusto,
-                                    IdUsuario = lanc.IdUsuario
-                                };
-                return resultado;
+                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamento);
+                return readDto;
             }
             return null;
         }
