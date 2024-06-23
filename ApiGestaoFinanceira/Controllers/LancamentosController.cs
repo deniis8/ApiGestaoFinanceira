@@ -1,4 +1,5 @@
 ﻿using ApiGestaoFinanceira.Data.Dto;
+using ApiGestaoFinanceira.Data.Dto.DetalhamentoGastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
@@ -39,6 +40,14 @@ namespace ApiGestaoFinanceira.Controllers
         public IActionResult RecuperaLancamentosMesAnterior()
         {
             IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(null);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
+        }
+
+        [HttpGet("dataDeAte")]
+        public IActionResult RecuperaLancamentosDeAte([FromQuery] string dataDe, string dataAte)
+        {
+            Object readDto = _lancamentoService.RecuperaLancamentosDataDeAte(dataDe, dataAte);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }

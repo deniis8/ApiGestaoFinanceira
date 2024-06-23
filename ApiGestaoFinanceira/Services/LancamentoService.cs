@@ -1,5 +1,6 @@
 ﻿using ApiGestaoFinanceira.Data;
 using ApiGestaoFinanceira.Data.Dto.CentroCusto;
+using ApiGestaoFinanceira.Data.Dto.DetalhamentoGastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
@@ -8,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace ApiGestaoFinanceira.Services
 {
@@ -97,6 +99,40 @@ namespace ApiGestaoFinanceira.Services
                                      DescriCCusto = centroCusto.DescriCCusto
                                  }).FirstOrDefault();
 
+                return resultado;
+            }
+            return null;
+        }
+
+        public Object RecuperaLancamentosDataDeAte(string dataDe, string dataAte)
+        {
+            List<Lancamento> lancamentos;
+            lancamentos = _context.Lancamentos.ToList();
+
+            //Centro de Custo
+            List<CentroCusto> centroCustos;
+            centroCustos = _context.CentroCustos.ToList();
+
+            if (lancamentos != null)
+            {
+                List<ReadLancamentoDto> readLancamentoDto = _mapper.Map<List<ReadLancamentoDto>>(lancamentos);
+                List<ReadCentroCustoDto> readCCustoDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
+                var resultado = from lanc in readLancamentoDto
+                                join centroCusto in readCCustoDto
+                                on lanc.IdCCusto equals centroCusto.Id
+                                where lanc.Deletado != '*' && lanc.DataHora >= DateTime.Parse(dataDe) && lanc.DataHora <= DateTime.Parse(dataAte)
+                                orderby lanc.DataHora descending
+                                select new
+                                {
+                                    Id = lanc.Id,
+                                    DataHora = lanc.DataHora,
+                                    Valor = lanc.Valor,
+                                    Descricao = lanc.Descricao,
+                                    Status = lanc.Status,
+                                    IdCCusto = lanc.IdCCusto,
+                                    DescriCCusto = centroCusto.DescriCCusto,
+                                    IdUsuario = lanc.IdUsuario
+                                };
                 return resultado;
             }
             return null;
