@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiGestaoFinanceira.Models
 {
-    [Table("VW_GASTOS_CENTRO_CUSTO")]
+    [Table("SP_GASTOS_CENTRO_CUSTO_POR_MES_ANO")]
     public class GastosCentroCusto
     {
         [Key]

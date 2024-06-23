@@ -38,7 +38,7 @@ namespace ApiGestaoFinanceira
             {
                 ambiente = "ServerConnectionGFDev";
             }*/
-            string ambiente = "ServerConnectionGFDev";
+            string ambiente = "ServerConnectionGFOrangePi";
             //string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options

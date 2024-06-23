@@ -3,10 +3,13 @@ using ApiGestaoFinanceira.Data.Dto.GastosCentroCusto;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ApiGestaoFinanceira.Services
 {
@@ -37,7 +40,7 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public List<ReadGastosCentroCustoDto> RecuperaGastosCentroCustoMesAno(string mesAno)
+        /*public List<ReadGastosCentroCustoDto> RecuperaGastosCentroCustoMesAno(string mesAno)
         {
             List<GastosCentroCusto> gastosCentroCusto;
             gastosCentroCusto = _context.GastosCentroCustos.Where(cc => cc.MesAno == mesAno).Take(10).ToList();
@@ -48,6 +51,17 @@ namespace ApiGestaoFinanceira.Services
                 return readDto;
             }
             return null;
+        }*/
+
+        public async Task<List<GastosCentroCusto>> RecuperaGastosCentroCustoMesAno(string mesAno)
+        {
+            var parameter = new MySqlParameter("@MES_ANO", mesAno);
+
+            var gastosCentroCusto = await _context.GastosCentroCustos
+                .FromSqlRaw("CALL SP_GASTOS_CENTRO_CUSTO_POR_MES_ANO(@MES_ANO)", parameter)
+                .ToListAsync();
+
+            return gastosCentroCusto.AsEnumerable().Take(10).ToList();
         }
 
     }
