@@ -23,10 +23,6 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
         [Column("STATUS_LANC")]
         public string Status { get; set; }
 
-        //[Required(ErrorMessage = "O campo Data Criação é obrigatório")]
-        //[Column("DATA_CRIACAO")]
-        //public DateTime DataCriacao { get; set; }
-
         //[Required(ErrorMessage = "O campo Id Usuário é obrigatório")]
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }

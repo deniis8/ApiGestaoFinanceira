@@ -1,12 +1,10 @@
-﻿using ApiGestaoFinanceira.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
-namespace ApiGestaoFinanceira.Data.Dto.Lancamento
+namespace ApiGestaoFinanceira.Data.Dto.VWLancamento
 {
-    public class ReadLancamentoDto
+    public class ReadVWLancamentoDto
     {
         [Key]
         [Required]
@@ -24,6 +22,9 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
 
         [Column("ID_CCUSTO")]
         public int IdCCusto { get; set; }
+
+        [Column("DESCRI_CC")]
+        public string DescriCCusto { get; set; }
 
         [Column("STATUS_LANC")]
         public string Status { get; set; }
