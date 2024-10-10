@@ -61,7 +61,7 @@ namespace ApiGestaoFinanceira.Services
                 .FromSqlRaw("CALL SP_GASTOS_CENTRO_CUSTO_POR_MES_ANO(@MES_ANO)", parameter)
                 .ToListAsync();
 
-            return gastosCentroCusto.AsEnumerable().Take(10).ToList();
+            return gastosCentroCusto.AsEnumerable()./*Take(10).*/ToList();
         }
 
     }

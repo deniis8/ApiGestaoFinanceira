@@ -6,6 +6,9 @@ namespace ApiGestaoFinanceira.Data.Dto.DetalhamentoGastosCentroCusto
 {
     public class ReadDetalhamentoGastosCentroCustoDto
     {
+        [Column("ID_LANC")]
+        public int Id { get; set; }
+
         [Column("VALOR", TypeName = "decimal(10,2)")]
         public decimal Valor { get; set; }
 
