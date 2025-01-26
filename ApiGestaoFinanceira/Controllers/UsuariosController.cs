@@ -2,11 +2,13 @@
 using ApiGestaoFinanceira.Data.Dto.Usuario;
 using ApiGestaoFinanceira.Services;
 using FluentResults;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
 namespace ApiGestaoFinanceira.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class UsuariosController : ControllerBase
     {
@@ -17,14 +19,14 @@ namespace ApiGestaoFinanceira.Controllers
             _usuarioService = usuarioService;
         }
 
+        
         [HttpPost]
-        //[Authorize(Roles = "admin")]
         public IActionResult AdicionaUsuario([FromBody] CreateUsuarioDto usuarioDto)
         {
             ReadUsuarioDto readDto = _usuarioService.AdicionaUsuario(usuarioDto);
             return CreatedAtAction(nameof(RecuperaUsuariosPorId), new { Id = readDto.Id }, readDto);
         }
-
+        //[Authorize(Roles = "admin")]
         [HttpGet]
         public IActionResult RecuperaUsuarios()
         {

@@ -56,6 +56,15 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
+        public bool RecuperaUsuariosPorEmailESenha(string email, string senha)
+        {
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email && usuario.Senha == senha);
+            if (usuario != null)
+                return true;
+            
+            return false;
+        }
+
         public Result AtualizaUsuario(int id, UpdateUsuarioDto usuarioDto)
         {
             Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
