@@ -24,6 +24,12 @@ namespace ApiGestaoFinanceira.Models
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }
 
+        [Column("SOBRA_MES", TypeName = "decimal(10,2)")]
+        public decimal SobraMes { get; set; }
+
+        [Column("VALOR_RECEBIDO_MES", TypeName = "decimal(10,2)")]
+        public decimal ValorRecebidoMes { get; set; }
+
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }
     }

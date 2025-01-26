@@ -9,6 +9,9 @@ namespace ApiGestaoFinanceira.Data
     public class AppDbContext : DbContext
     {
         public DbSet<Lancamento> Lancamentos { get; set; }
+
+        public DbSet<VWLancamento> VWLancamentos { get; set; }
+
         public DbSet<CentroCusto> CentroCustos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<GastosMensais> GastosMensais { get; set; }

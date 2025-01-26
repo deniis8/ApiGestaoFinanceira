@@ -42,6 +42,8 @@ namespace ApiGestaoFinanceira.Services
                                     Ano = gastM.Ano,
                                     Mes = gastM.Mes,
                                     DataHora = gastM.DataHora,
+                                    SobraMes = gastM.SobraMes,
+                                    ValorRecebidoMes = gastM.ValorRecebidoMes,
                                     IdUsuario = gastM.IdUsuario
                                 };
                 return resultado;

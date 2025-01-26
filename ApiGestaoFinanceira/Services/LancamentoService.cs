@@ -3,6 +3,7 @@ using ApiGestaoFinanceira.Data.Dto.CentroCusto;
 using ApiGestaoFinanceira.Data.Dto.DetalhamentoGastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.GastosCentroCusto;
 using ApiGestaoFinanceira.Data.Dto.Lancamento;
+using ApiGestaoFinanceira.Data.Dto.VWLancamento;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using FluentResults;
@@ -38,12 +39,12 @@ namespace ApiGestaoFinanceira.Services
             if (string.IsNullOrEmpty(data))
                 data = Convert.ToString(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
 
-            List<Lancamento> lancamento;
-            lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(data)).ToList();
+            List<VWLancamento> vwLancamento;
+            vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(data)).ToList();
 
-            if (lancamento != null)
+            if (vwLancamento != null)
             {
-                List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamento);
+                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
                 return readDto;
             }
             return null;
@@ -51,12 +52,12 @@ namespace ApiGestaoFinanceira.Services
 
         public Object RecuperaLancamentosPorId(int id)
         {
-            Lancamento lancamento;
-            lancamento = _context.Lancamentos.FirstOrDefault(l => l.Id == id);
+            VWLancamento vwLancamento;
+            vwLancamento = _context.VWLancamentos.FirstOrDefault(l => l.Id == id);
 
-            if (lancamento != null)
+            if (vwLancamento != null)
             {
-                ReadLancamentoDto readDto = _mapper.Map<ReadLancamentoDto>(lancamento);
+                ReadVWLancamentoDto readDto = _mapper.Map<ReadVWLancamentoDto>(vwLancamento);
                 return readDto;
             }
             return null;
@@ -64,25 +65,27 @@ namespace ApiGestaoFinanceira.Services
 
         public IEnumerable RecuperaLancamentosDataDeAte(string dataDe, string dataAte, string status, int idCentroCusto)
         {
-            List<Lancamento> lancamento;            
+            List<VWLancamento> vwLancamento;
 
-            if ((dataDe != null && dataAte != null))
+            if ((dataDe != null && dataAte != null) & status == null)
             {
-                if(idCentroCusto == 0)
-                {
-                    lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
-                }
-                else
-                {
-                    lancamento = _context.Lancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
-                }
+                vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59")).ToList();
+                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
+                return readDto;
+            }
+            else if((dataDe != null && dataAte != null) && status != null && idCentroCusto == 0)
+            {
+                vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
+                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
+                return readDto;
+            }
+            else if ((dataDe != null && dataAte != null) && status != null && idCentroCusto > 0)
+            {
+                vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
+                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
+                return readDto;
+            }
 
-                if (lancamento != null)
-                {
-                    List<ReadLancamentoDto> readDto = _mapper.Map<List<ReadLancamentoDto>>(lancamento);
-                    return readDto;
-                }
-            }            
             return null;
         }
 

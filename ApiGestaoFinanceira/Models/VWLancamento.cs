@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiGestaoFinanceira.Models
-{    
-    public class Lancamento
+{
+    [Table("VW_LANCAMENTOS")]
+    public class VWLancamento
     {
         [Key]
         [Required]
@@ -28,6 +29,10 @@ namespace ApiGestaoFinanceira.Models
         [Required(ErrorMessage = "O campo ID do Centro de Custo é obrigatório")]
         public int IdCCusto { get; set; }
 
+        [Required(ErrorMessage = "O campo Descrição Centro de Custo é obrigatório")]
+        [Column("DESCRI_CC")]
+        public string DescriCCusto { get; set; }
+
         [Required(ErrorMessage = "O campo Status é obrigatório")]
         [Column("STATUS_LANC")]
         public string Status { get; set; }
@@ -35,9 +40,6 @@ namespace ApiGestaoFinanceira.Models
         [Required(ErrorMessage = "O campo Id Usuário é obrigatório")]
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }
-
-        [Column("D_E_L_E_T_")]
-        public char Deletado { get; set; }
 
     }
 }
