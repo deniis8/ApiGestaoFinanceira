@@ -56,13 +56,15 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public bool RecuperaUsuariosPorEmailESenha(string email, string senha)
+        public ReadUsuarioDto RecuperaUsuariosPorEmailESenha(string email, string senha)
         {
             Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email && usuario.Senha == senha);
             if (usuario != null)
-                return true;
-            
-            return false;
+            {
+                ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
+                return usuarioDto;
+            }
+            return null;
         }
 
         public Result AtualizaUsuario(int id, UpdateUsuarioDto usuarioDto)
@@ -87,6 +89,28 @@ namespace ApiGestaoFinanceira.Services
             _mapper.Map(usuarioDto, usuario);
             _context.SaveChanges();
             return Result.Ok();
+        }
+
+        public ReadUsuarioDto RecuperaUsuarioPorRefreshToken(string refreshToken)
+        {
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.RefreshToken == refreshToken);
+            if (usuario != null)
+            {
+                ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
+                return usuarioDto;
+            }
+            return null;
+        }
+
+        public void SalvaRefreshToken(int userId, string refreshToken, DateTime expiryTime)
+        {
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.Id == userId);
+            if (usuario != null)
+            {
+                usuario.RefreshToken = refreshToken;
+                usuario.RefreshTokenDataExpiracao = expiryTime;
+                _context.SaveChanges();
+            }
         }
     }
 }

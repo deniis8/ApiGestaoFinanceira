@@ -30,6 +30,12 @@ namespace ApiGestaoFinanceira.Models
         [Column("DATA_CRIACAO")]
         public DateTime DataCriacao { get; set; }
 
+        [Column("REFRESH_TOKEN")]
+        public string RefreshToken { get; set; }
+
+        [Column("REFRESH_TOKEN_DATA_EXPIRACAO")]
+        public DateTime? RefreshTokenDataExpiracao { get; set; }
+
         [Column("D_E_L_E_T_")]
         public char Deletado { get; set; }
     }

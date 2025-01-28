@@ -13,19 +13,22 @@ namespace ApiGestaoFinanceira.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private UsuarioService _usuarioService;
-        public AuthController(UsuarioService usuarioService)
+        private readonly UsuarioService _usuarioService;
+        private readonly TokenService _tokenService;
+
+        public AuthController(UsuarioService usuarioService, TokenService tokenService)
         {
             _usuarioService = usuarioService;
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
         [AllowAnonymous]
         public IActionResult Login([FromBody] ReadUsuarioDto loginUsuarioDto)
         {
-            bool usuarioExiste = _usuarioService.RecuperaUsuariosPorEmailESenha(loginUsuarioDto.Email, loginUsuarioDto.Senha);
-            
-            if(!usuarioExiste)
+            ReadUsuarioDto usuarioExiste = _usuarioService.RecuperaUsuariosPorEmailESenha(loginUsuarioDto.Email, loginUsuarioDto.Senha);
+
+            if (usuarioExiste == null)
                 return Unauthorized("Usuário ou senha inválidos.");
 
             var claims = new[]
@@ -44,8 +47,46 @@ namespace ApiGestaoFinanceira.Controllers
                 expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds);
 
-            return Ok(new { Token = new JwtSecurityTokenHandler().WriteToken(token) });
+            var accessToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            // Gera o refresh token
+            var refreshToken = _tokenService.GenerateRefreshToken();
+            _usuarioService.SalvaRefreshToken(usuarioExiste.Id, refreshToken, DateTime.Now.AddDays(7));
+
+            return Ok(new { Token = accessToken, RefreshToken = refreshToken });
+        }
+
+        [HttpPost("refresh")]
+        [AllowAnonymous]
+        public IActionResult RefreshToken([FromBody] ReadUsuarioDto usuarioDto)
+        {
+            var usuario = _usuarioService.RecuperaUsuarioPorRefreshToken(usuarioDto.RefreshToken);
+
+            if (usuario == null || usuario.RefreshTokenDataExpiracao <= DateTime.Now)
+                return Unauthorized("Refresh token inválido ou expirado.");
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Name, usuario.Email),
+                new Claim(ClaimTypes.Role, "admin")
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aplicacaogestaofinanceira@123"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "gestao-financeira",
+                audience: "clientes-gestao",
+                claims: claims,
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: creds);
+
+            var newAccessToken = new JwtSecurityTokenHandler().WriteToken(token);
+            var newRefreshToken = _tokenService.GenerateRefreshToken();
+
+            _usuarioService.SalvaRefreshToken(usuario.Id, newRefreshToken, DateTime.Now.AddDays(7));
+
+            return Ok(new { Token = newAccessToken, RefreshToken = newRefreshToken });
         }
     }
 }
-

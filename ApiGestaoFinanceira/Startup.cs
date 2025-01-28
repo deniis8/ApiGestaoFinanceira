@@ -54,7 +54,8 @@ namespace ApiGestaoFinanceira
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = "gestao-financeira",
                     ValidAudience = "clientes-gestao",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aplicacaogestaofinanceira@123"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aplicacaogestaofinanceira@123")),
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
@@ -74,6 +75,7 @@ namespace ApiGestaoFinanceira
             services.AddScoped<SaldosInvestimentosService, SaldosInvestimentosService>();
             services.AddScoped<GastosCentroCustoService, GastosCentroCustoService>();
             services.AddScoped<DetalhamentoGastosCentroCustoService, DetalhamentoGastosCentroCustoService>();
+            services.AddScoped<TokenService>();
             services.AddCors();
         }
 
