@@ -59,5 +59,14 @@ namespace ApiGestaoFinanceira.Controllers
             return NoContent();
         }
 
+        [HttpGet("usuario/{id}")]
+        public IActionResult RecuperaCentroCustosPorIdUsuario(int idUsuario)
+        {
+            List<ReadCentroCustoDto> readDto = _centroCustoService.RecuperaCentroCustosPorIdUsuario(idUsuario);
+            if (readDto == null) return NotFound();
+            return Ok(readDto);
+
+        }
+
     }
 }

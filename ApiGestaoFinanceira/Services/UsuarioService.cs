@@ -46,7 +46,7 @@ namespace ApiGestaoFinanceira.Services
 
         public ReadUsuarioDto RecuperaUsuariosPorId(int id)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id && usuario.Deletado != '*');
             if (usuario != null)
             {
                 ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
@@ -58,7 +58,7 @@ namespace ApiGestaoFinanceira.Services
 
         public ReadUsuarioDto RecuperaUsuariosPorEmailESenha(string email, string senha)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email && usuario.Senha == senha);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email && usuario.Senha == senha && usuario.Deletado != '*');
             if (usuario != null)
             {
                 ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
@@ -69,7 +69,7 @@ namespace ApiGestaoFinanceira.Services
 
         public Result AtualizaUsuario(int id, UpdateUsuarioDto usuarioDto)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id && usuario.Deletado != '*');
             if (usuario == null)
             {
                 return Result.Fail("Usuario não encontrado");
@@ -81,7 +81,7 @@ namespace ApiGestaoFinanceira.Services
 
         public Result DeletaUsuario(int id, DeleteUsuarioDto usuarioDto)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id && usuario.Deletado != '*');
             if (usuario == null)
             {
                 return Result.Fail("Usuario não encontrado");
@@ -93,7 +93,7 @@ namespace ApiGestaoFinanceira.Services
 
         public ReadUsuarioDto RecuperaUsuarioPorRefreshToken(string refreshToken)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.RefreshToken == refreshToken);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.RefreshToken == refreshToken && usuario.Deletado != '*');
             if (usuario != null)
             {
                 ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);

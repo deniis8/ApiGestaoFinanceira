@@ -26,9 +26,9 @@ namespace ApiGestaoFinanceira.Controllers
         [AllowAnonymous]
         public IActionResult Login([FromBody] ReadUsuarioDto loginUsuarioDto)
         {
-            ReadUsuarioDto usuarioExiste = _usuarioService.RecuperaUsuariosPorEmailESenha(loginUsuarioDto.Email, loginUsuarioDto.Senha);
+            ReadUsuarioDto usuario = _usuarioService.RecuperaUsuariosPorEmailESenha(loginUsuarioDto.Email, loginUsuarioDto.Senha);
 
-            if (usuarioExiste == null)
+            if (usuario == null)
                 return Unauthorized("Usuário ou senha inválidos.");
 
             var claims = new[]
@@ -51,9 +51,9 @@ namespace ApiGestaoFinanceira.Controllers
 
             // Gera o refresh token
             var refreshToken = _tokenService.GenerateRefreshToken();
-            _usuarioService.SalvaRefreshToken(usuarioExiste.Id, refreshToken, DateTime.Now.AddDays(7));
+            _usuarioService.SalvaRefreshToken(usuario.Id, refreshToken, DateTime.Now.AddDays(7));
 
-            return Ok(new { Token = accessToken, RefreshToken = refreshToken });
+            return Ok(new { Token = accessToken, RefreshToken = refreshToken , idUsuario = usuario.Id});
         }
 
         [HttpPost("refresh")]
@@ -86,7 +86,7 @@ namespace ApiGestaoFinanceira.Controllers
 
             _usuarioService.SalvaRefreshToken(usuario.Id, newRefreshToken, DateTime.Now.AddDays(7));
 
-            return Ok(new { Token = newAccessToken, RefreshToken = newRefreshToken });
+            return Ok(new { Token = newAccessToken, RefreshToken = newRefreshToken, idUsuario = usuario.Id });
         }
     }
 }
