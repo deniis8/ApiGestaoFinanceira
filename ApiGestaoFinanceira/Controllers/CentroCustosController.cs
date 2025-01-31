@@ -26,13 +26,13 @@ namespace ApiGestaoFinanceira.Controllers
             return CreatedAtAction(nameof(RecuperaCentroCustosPorId), new { Id = readDto.Id }, readDto);
         }
 
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult RecuperaCentroCustos()
         {
             List<ReadCentroCustoDto> readDto = _centroCustoService.RecuperaCentroCustos();
             if (readDto == null) return NotFound();
             return Ok(readDto);
-        }
+        }*/
 
         [HttpGet("{id}")]
         public IActionResult RecuperaCentroCustosPorId(int id)
@@ -59,7 +59,7 @@ namespace ApiGestaoFinanceira.Controllers
             return NoContent();
         }
 
-        [HttpGet("usuario/{id}")]
+        [HttpGet("usuario/{idUsuario}")]
         public IActionResult RecuperaCentroCustosPorIdUsuario(int idUsuario)
         {
             List<ReadCentroCustoDto> readDto = _centroCustoService.RecuperaCentroCustosPorIdUsuario(idUsuario);

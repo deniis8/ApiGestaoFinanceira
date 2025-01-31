@@ -21,11 +21,11 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public Object getSaldosInvestimentos()
+        public Object getSaldosInvestimentos(int idUsuario)
         {
             List<SaldosInvestimentos> saldosInvestimentos;
-            saldosInvestimentos = _context.SaldosInvestimentos.ToList();
-            if (saldosInvestimentos != null)
+            saldosInvestimentos = _context.SaldosInvestimentos.Where(s => s.IdUsuario == idUsuario).ToList();
+            if (saldosInvestimentos.Any())
             {
                 List<ReadSaldosInvestimentos> readDto = _mapper.Map<List<ReadSaldosInvestimentos>>(saldosInvestimentos);
                 return readDto.FirstOrDefault();

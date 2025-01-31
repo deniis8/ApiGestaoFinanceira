@@ -24,26 +24,26 @@ namespace ApiGestaoFinanceira.Controllers
             return CreatedAtAction(nameof(RecuperaLancamentosPorId), new { Id = readDto.Id }, readDto);
         }
 
-        [HttpGet("data/{data}")]
-        public IActionResult RecuperaLancamentos(string data)
+        [HttpGet("usuario/{idUsuario}/data/{data}")]
+        public IActionResult RecuperaLancamentos(int idUsuario, string data)
         {
-            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(data);
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(idUsuario, data);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
 
-        [HttpGet("data")]
-        public IActionResult RecuperaLancamentosMesAnterior()
+        [HttpGet("usuario/{idUsuario}")]
+        public IActionResult RecuperaLancamentosMesAnterior(int idUsuario)
         {
-            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(null);
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosPorData(idUsuario, null);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
 
         [HttpGet("dataDeAte")]
-        public IActionResult RecuperaLancamentosDeAte([FromQuery] string dataDe, string dataAte, string status, int idCentroCusto)
+        public IActionResult RecuperaLancamentosDeAte([FromQuery] int idUsuario, string dataDe, string dataAte, string status, int idCentroCusto)
         {
-            IEnumerable readDto = _lancamentoService.RecuperaLancamentosDataDeAte(dataDe, dataAte, status, idCentroCusto);
+            IEnumerable readDto = _lancamentoService.RecuperaLancamentosDataDeAte(idUsuario, dataDe, dataAte, status, idCentroCusto);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }

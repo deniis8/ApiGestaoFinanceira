@@ -39,17 +39,10 @@ namespace ApiGestaoFinanceira.Controllers
             return Ok(readDto);
         }
 
-        /*[HttpGet("mesAno/{mesAno}")]
-        public IActionResult RecuperaCentroCustosMesAno(string mesAno)
+        [HttpGet("usuario/{idUsuario}/mesAno/{mesAno}")]
+        public async Task<ActionResult<IEnumerable<Lancamento>>> GetLancamentos(int idUsuario, string mesAno)
         {
-            List<ReadGastosCentroCustoDto> readDto = _gastosCentroCustoService.RecuperaGastosCentroCustoMesAno(mesAno);
-            if (readDto == null) return NotFound();
-            return Ok(readDto);
-        }*/
-        [HttpGet("mesAno/{mesAno}")]
-        public async Task<ActionResult<IEnumerable<Lancamento>>> GetLancamentos(string mesAno)
-        {
-            var lancamentos = await _gastosCentroCustoService.RecuperaGastosCentroCustoMesAno(mesAno);
+            var lancamentos = await _gastosCentroCustoService.RecuperaGastosCentroCustoMesAno(idUsuario, mesAno);
             return Ok(lancamentos);
         }
 

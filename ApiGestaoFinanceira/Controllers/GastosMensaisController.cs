@@ -17,18 +17,18 @@ namespace ApiGestaoFinanceira.Controllers
             _gastosMensaisService = gastosMensaisService;
         }
 
-        [HttpGet("{data}")]
-        public IActionResult getGastosMensaisApartirDe(string data)
+        [HttpGet("usuario/{idUsuario}/data/{data}")]
+        public IActionResult getGastosMensaisApartirDe(int idUsuario, string data)
         {
-            IEnumerable readDto = _gastosMensaisService.getGastosMensaisApartirDe(data);
+            IEnumerable readDto = _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, data);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }
 
-        [HttpGet()]
-        public IActionResult getAllGastosMensais(string data)
+        [HttpGet("usuario/{idUsuario}")]
+        public IActionResult getAllGastosMensais(int idUsuario)
         {
-            object readDto = _gastosMensaisService.getGastosMensaisApartirDe(data);
+            object readDto = _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, null);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }

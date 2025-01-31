@@ -15,10 +15,10 @@ namespace ApiGestaoFinanceira.Controllers
             _saldosInvestimentosService = saldosInvestimentosService;
         }
 
-        [HttpGet()]
-        public IActionResult getAllSaldosInvestimentos()
+        [HttpGet("usuario/{idUsuario}")]
+        public IActionResult getAllSaldosInvestimentos(int idUsuario)
         {
-            Object readDto = _saldosInvestimentosService.getSaldosInvestimentos();
+            Object readDto = _saldosInvestimentosService.getSaldosInvestimentos(idUsuario);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }

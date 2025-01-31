@@ -22,7 +22,7 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public IEnumerable getGastosMensaisApartirDe(string data)
+        public IEnumerable getGastosMensaisApartirDe(int idUsuario, string data)
         {
             if (string.IsNullOrEmpty(data))
                 data = Convert.ToString(DateTime.Now.AddMonths(-12).ToString("yyyy-MM-dd"));
@@ -34,7 +34,7 @@ namespace ApiGestaoFinanceira.Services
             {
                 List<ReadGastosMensaisDto> readGastosMensaisDto = _mapper.Map<List<ReadGastosMensaisDto>>(gastosMensais);
                 var resultado = from gastM in readGastosMensaisDto
-                                where gastM.DataHora >= DateTime.Parse(data)
+                                where gastM.IdUsuario == idUsuario && gastM.DataHora >= DateTime.Parse(data)
                                 orderby gastM.DataHora ascending
                                 select new
                                 {
