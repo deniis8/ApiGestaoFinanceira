@@ -51,7 +51,7 @@ namespace ApiGestaoFinanceira.Controllers
 
             // Gera o refresh token
             var refreshToken = _tokenService.GenerateRefreshToken();
-            _usuarioService.SalvaRefreshToken(usuario.Id, refreshToken, DateTime.Now.AddDays(7));
+            _usuarioService.SalvaRefreshToken(usuario.Id, refreshToken, DateTime.Now.AddDays(30));
 
             return Ok(new { Token = accessToken, RefreshToken = refreshToken , idUsuario = usuario.Id});
         }
@@ -84,7 +84,7 @@ namespace ApiGestaoFinanceira.Controllers
             var newAccessToken = new JwtSecurityTokenHandler().WriteToken(token);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
 
-            _usuarioService.SalvaRefreshToken(usuario.Id, newRefreshToken, DateTime.Now.AddDays(7));
+            _usuarioService.SalvaRefreshToken(usuario.Id, newRefreshToken, DateTime.Now.AddDays(30));
 
             return Ok(new { Token = newAccessToken, RefreshToken = newRefreshToken, idUsuario = usuario.Id });
         }

@@ -95,17 +95,17 @@ namespace ApiGestaoFinanceira
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseRouting();            
+
+            app.UseCors(options => options
+            .WithOrigins("http://192.168.1.110:4200")  // Permitir Angular
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            );
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseCors(options => options
-            .WithOrigins("http://192.168.1.110:5000")  // Permitir apenas o frontend local
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials()  // Permitir envio de cookies e cabeçalhos de autenticação
-        );
 
             app.UseEndpoints(endpoints =>
             {
