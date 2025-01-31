@@ -29,8 +29,8 @@ namespace ApiGestaoFinanceira
         public void ConfigureServices(IServiceCollection services)
         {
            
-            //string ambiente = "ServerConnectionGFOrangePi";
-            string ambiente = "ServerConnectionGFDev";
+            string ambiente = "ServerConnectionGFOrangePi";
+            //string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(
@@ -101,7 +101,7 @@ namespace ApiGestaoFinanceira
             app.UseAuthorization();
 
             app.UseCors(options => options
-            .WithOrigins("http://localhost:4200")  // Permitir apenas o frontend local
+            .WithOrigins("http://192.168.1.110:5000")  // Permitir apenas o frontend local
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()  // Permitir envio de cookies e cabeçalhos de autenticação
