@@ -2,6 +2,8 @@
 using ApiGestaoFinanceira.Data.Dto.Saldos;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public Object getSaldosInvestimentos(int idUsuario)
+        /*public Object getSaldosInvestimentos(int idUsuario)
         {
             List<SaldosInvestimentos> saldosInvestimentos;
             saldosInvestimentos = _context.SaldosInvestimentos.Where(s => s.IdUsuario == idUsuario).ToList();
@@ -32,6 +34,20 @@ namespace ApiGestaoFinanceira.Services
             }
             return null;
 
+        }*/
+
+        public async Task<List<SaldosInvestimentos>> getSaldosInvestimentos(int idUsuario)
+        {
+            var parameters = new[]
+            {
+                new MySqlParameter("@ID_USER", idUsuario)
+            };
+
+            var saldosInvestimentos = await _context.SaldosInvestimentos
+                .FromSqlRaw("CALL SP_SALDOS_INVESTIMENTOS(@ID_USER)", parameters)
+                .ToListAsync();
+
+            return saldosInvestimentos.AsEnumerable().ToList();
         }
     }
 }
