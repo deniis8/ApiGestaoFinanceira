@@ -18,9 +18,9 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpGet("usuario/{idUsuario}")]
-        public async Task<ActionResult<IEnumerable<SaldosInvestimentos>>> getAllSaldosInvestimentos(int idUsuario)
+        public async Task<ActionResult<SaldosInvestimentos>> GetSaldoInvestimento(int idUsuario)
         {
-            var readDto = _saldosInvestimentosService.getSaldosInvestimentos(idUsuario);
+            var readDto  = await _saldosInvestimentosService.getSaldosInvestimentos(idUsuario);
             return Ok(readDto);
         }
     }

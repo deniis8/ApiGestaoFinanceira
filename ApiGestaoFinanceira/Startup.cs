@@ -29,8 +29,8 @@ namespace ApiGestaoFinanceira
         public void ConfigureServices(IServiceCollection services)
         {
            
-            //string ambiente = "ServerConnectionGFOrangePi";
-            string ambiente = "ServerConnectionGFDev";
+            string ambiente = "ServerConnectionGFOrangePi";
+            //string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(
@@ -98,7 +98,7 @@ namespace ApiGestaoFinanceira
             app.UseRouting();            
 
             app.UseCors(options => options
-            .WithOrigins("http://localhost:4200")  // Permitir Angular
+            .WithOrigins("http://192.168.1.110:4200")  // Permitir Angular
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials()

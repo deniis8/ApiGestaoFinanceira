@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 using ApiGestaoFinanceira.Data.Dto.GastosMensais;
+using ApiGestaoFinanceira.Models;
+using System.Threading.Tasks;
 
 namespace ApiGestaoFinanceira.Controllers
 {
@@ -18,18 +20,16 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpGet("usuario/{idUsuario}/data/{data}")]
-        public IActionResult getGastosMensaisApartirDe(int idUsuario, string data)
+        public async Task<ActionResult<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string data)
         {
-            IEnumerable readDto = _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, data);
-            if (readDto == null) return NotFound();
+            IEnumerable readDto = await _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, data);
             return Ok(readDto);
         }
 
         [HttpGet("usuario/{idUsuario}")]
-        public IActionResult getAllGastosMensais(int idUsuario)
+        public async Task<ActionResult<GastosMensais>> getAllGastosMensais(int idUsuario)
         {
-            object readDto = _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, null);
-            if (readDto == null) return NotFound();
+            object readDto = await _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, null);
             return Ok(readDto);
         }
 

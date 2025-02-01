@@ -36,18 +36,15 @@ namespace ApiGestaoFinanceira.Services
 
         }*/
 
-        public async Task<List<SaldosInvestimentos>> getSaldosInvestimentos(int idUsuario)
+        public async Task<SaldosInvestimentos> getSaldosInvestimentos(int idUsuario)
         {
-            var parameters = new[]
-            {
-                new MySqlParameter("@ID_USER", idUsuario)
-            };
+            var parameter = new MySqlParameter("@ID_USER", idUsuario);
 
             var saldosInvestimentos = await _context.SaldosInvestimentos
-                .FromSqlRaw("CALL SP_SALDOS_INVESTIMENTOS(@ID_USER)", parameters)
+                .FromSqlRaw("CALL SP_SALDOS_INVESTIMENTOS(@ID_USER)", parameter)
                 .ToListAsync();
 
-            return saldosInvestimentos.AsEnumerable().ToList();
+            return saldosInvestimentos.FirstOrDefault();
         }
     }
 }
