@@ -27,6 +27,9 @@ namespace ApiGestaoFinanceira.Services
 
         public async Task<List<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string data)
         {
+            if (string.IsNullOrEmpty(data))
+                data = Convert.ToString(DateTime.Now.AddMonths(-12).ToString("yyyy-MM-dd"));
+
             var parameters = new[]
             {
                 new MySqlParameter("@ID_USER", idUsuario),
@@ -37,7 +40,7 @@ namespace ApiGestaoFinanceira.Services
                 .FromSqlRaw("CALL SP_GASTOS_MENSAIS(@ID_USER, @APARTIR_DE)", parameters)
                 .ToListAsync();
 
-            return gastosMensais.AsEnumerable().Take(12).ToList();
+            return gastosMensais.AsEnumerable().ToList();
         }
     }
 }
