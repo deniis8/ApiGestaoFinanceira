@@ -46,7 +46,7 @@ namespace ApiGestaoFinanceira.Services
 
         public ReadUsuarioDto RecuperaUsuariosPorId(int id)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id && usuario.Deletado != '*');
             if (usuario != null)
             {
                 ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
@@ -56,9 +56,20 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
+        public ReadUsuarioDto RecuperaUsuariosPorEmailESenha(string email, string senha)
+        {
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Email == email && usuario.Senha == senha && usuario.Deletado != '*');
+            if (usuario != null)
+            {
+                ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
+                return usuarioDto;
+            }
+            return null;
+        }
+
         public Result AtualizaUsuario(int id, UpdateUsuarioDto usuarioDto)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id && usuario.Deletado != '*');
             if (usuario == null)
             {
                 return Result.Fail("Usuario não encontrado");
@@ -70,7 +81,7 @@ namespace ApiGestaoFinanceira.Services
 
         public Result DeletaUsuario(int id, DeleteUsuarioDto usuarioDto)
         {
-            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id);
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.Id == id && usuario.Deletado != '*');
             if (usuario == null)
             {
                 return Result.Fail("Usuario não encontrado");
@@ -78,6 +89,28 @@ namespace ApiGestaoFinanceira.Services
             _mapper.Map(usuarioDto, usuario);
             _context.SaveChanges();
             return Result.Ok();
+        }
+
+        public ReadUsuarioDto RecuperaUsuarioPorRefreshToken(string refreshToken)
+        {
+            Usuario usuario = _context.Usuarios.FirstOrDefault(usuario => usuario.RefreshToken == refreshToken && usuario.Deletado != '*');
+            if (usuario != null)
+            {
+                ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
+                return usuarioDto;
+            }
+            return null;
+        }
+
+        public void SalvaRefreshToken(int userId, string refreshToken, DateTime expiryTime)
+        {
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.Id == userId);
+            if (usuario != null)
+            {
+                usuario.RefreshToken = refreshToken;
+                usuario.RefreshTokenDataExpiracao = expiryTime;
+                _context.SaveChanges();
+            }
         }
     }
 }

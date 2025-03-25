@@ -40,29 +40,21 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        /*public List<ReadGastosCentroCustoDto> RecuperaGastosCentroCustoMesAno(string mesAno)
+        public async Task<List<GastosCentroCusto>> RecuperaGastosCentroCustoMesAno(int idUsuario, string mesAno)
         {
-            List<GastosCentroCusto> gastosCentroCusto;
-            gastosCentroCusto = _context.GastosCentroCustos.Where(cc => cc.MesAno == mesAno).Take(10).ToList();
-
-            if (gastosCentroCusto != null)
+            var parameters = new[]
             {
-                List<ReadGastosCentroCustoDto> readDto = _mapper.Map<List<ReadGastosCentroCustoDto>>(gastosCentroCusto);
-                return readDto;
-            }
-            return null;
-        }*/
-
-        public async Task<List<GastosCentroCusto>> RecuperaGastosCentroCustoMesAno(string mesAno)
-        {
-            var parameter = new MySqlParameter("@MES_ANO", mesAno);
+                new MySqlParameter("@ID_USER", idUsuario),
+                new MySqlParameter("@MES_ANO", mesAno)
+            };
 
             var gastosCentroCusto = await _context.GastosCentroCustos
-                .FromSqlRaw("CALL SP_GASTOS_CENTRO_CUSTO_POR_MES_ANO(@MES_ANO)", parameter)
+                .FromSqlRaw("CALL SP_GASTOS_CENTRO_CUSTO_POR_MES_ANO(@ID_USER, @MES_ANO)", parameters)
                 .ToListAsync();
 
-            return gastosCentroCusto.AsEnumerable()./*Take(10).*/ToList();
+            return gastosCentroCusto.AsEnumerable().ToList();
         }
+
 
     }
 }

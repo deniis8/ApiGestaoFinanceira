@@ -1,7 +1,9 @@
-﻿using System.Collections;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using ApiGestaoFinanceira.Services;
 using System;
+using ApiGestaoFinanceira.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace ApiGestaoFinanceira.Controllers
 {
@@ -15,11 +17,10 @@ namespace ApiGestaoFinanceira.Controllers
             _saldosInvestimentosService = saldosInvestimentosService;
         }
 
-        [HttpGet()]
-        public IActionResult getAllSaldosInvestimentos()
+        [HttpGet("usuario/{idUsuario}")]
+        public async Task<ActionResult<SaldosInvestimentos>> GetSaldoInvestimento(int idUsuario)
         {
-            Object readDto = _saldosInvestimentosService.getSaldosInvestimentos();
-            if (readDto == null) return NotFound();
+            var readDto  = await _saldosInvestimentosService.getSaldosInvestimentos(idUsuario);
             return Ok(readDto);
         }
     }

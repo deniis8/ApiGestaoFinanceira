@@ -8,7 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ApiGestaoFinanceira
 {
@@ -35,8 +39,34 @@ namespace ApiGestaoFinanceira
                    )
                );
 
-            services.AddControllers();
-           
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "gestao-financeira",
+                    ValidAudience = "clientes-gestao",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("aplicacaogestaofinanceira@123")),
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+                options.Filters.Add(new Microsoft.AspNetCore.Mvc.Authorization.AuthorizeFilter(policy));
+            });
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<LancamentoService, LancamentoService>();
             services.AddScoped<CentroCustoService, CentroCustoService>();
@@ -45,6 +75,7 @@ namespace ApiGestaoFinanceira
             services.AddScoped<SaldosInvestimentosService, SaldosInvestimentosService>();
             services.AddScoped<GastosCentroCustoService, GastosCentroCustoService>();
             services.AddScoped<DetalhamentoGastosCentroCustoService, DetalhamentoGastosCentroCustoService>();
+            services.AddScoped<TokenService>();
             services.AddCors();
         }
 
@@ -64,12 +95,17 @@ namespace ApiGestaoFinanceira
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseRouting();            
 
+            app.UseCors(options => options
+            .WithOrigins("http://192.168.1.110:4200", "http://localhost:4200", "http://localhost:8100")  // Permitir Angular
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials()
+            );
+
+            app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors(
-        options => options.WithOrigins("http://localhost:8100").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin() //AllowAnyOrigin().AllowAnyHeader()
-    );
 
             app.UseEndpoints(endpoints =>
             {

@@ -4,10 +4,13 @@ using ApiGestaoFinanceira.Data.Dto.GastosMensais;
 using ApiGestaoFinanceira.Models;
 using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ApiGestaoFinanceira.Services
 {
@@ -22,35 +25,22 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public IEnumerable getGastosMensaisApartirDe(string data)
+        public async Task<List<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string data)
         {
             if (string.IsNullOrEmpty(data))
                 data = Convert.ToString(DateTime.Now.AddMonths(-12).ToString("yyyy-MM-dd"));
 
-            List<GastosMensais> gastosMensais;
-            gastosMensais = _context.GastosMensais.ToList();
-
-            if (gastosMensais != null)
+            var parameters = new[]
             {
-                List<ReadGastosMensaisDto> readGastosMensaisDto = _mapper.Map<List<ReadGastosMensaisDto>>(gastosMensais);
-                var resultado = from gastM in readGastosMensaisDto
-                                where gastM.DataHora >= DateTime.Parse(data)
-                                orderby gastM.DataHora ascending
-                                select new
-                                {
-                                    Valor = gastM.Valor,
-                                    Ano = gastM.Ano,
-                                    Mes = gastM.Mes,
-                                    DataHora = gastM.DataHora,
-                                    SobraMes = gastM.SobraMes,
-                                    ValorRecebidoMes = gastM.ValorRecebidoMes,
-                                    IdUsuario = gastM.IdUsuario
-                                };
-                return resultado;
+                new MySqlParameter("@ID_USER", idUsuario),
+                new MySqlParameter("@APARTIR_DE", data)
+            };
 
+            var gastosMensais = await _context.GastosMensais
+                .FromSqlRaw("CALL SP_GASTOS_MENSAIS(@ID_USER, @APARTIR_DE)", parameters)
+                .ToListAsync();
 
-            }
-            return null;
+            return gastosMensais.AsEnumerable().ToList();
         }
     }
 }

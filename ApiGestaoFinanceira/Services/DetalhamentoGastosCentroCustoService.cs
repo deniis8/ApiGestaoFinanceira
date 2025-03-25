@@ -25,11 +25,11 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public List<ReadDetalhamentoGastosCentroCustoDto> RecuperaDetalhamentoGastosCentroCustoCC(string mesAno, string descCC)
+        public List<ReadDetalhamentoGastosCentroCustoDto> RecuperaDetalhamentoGastosCentroCustoCC(int idUsuario, string mesAno, string descCC)
         {
             List<DetalhamentoGastosCentroCusto> detalhamentoGastosCentroCusto;
             if(!string.IsNullOrEmpty(mesAno) && !string.IsNullOrEmpty(descCC)) {
-                detalhamentoGastosCentroCusto = _context.DetalhamentoGastosCentroCustos.Where(cc => cc.MesAno == mesAno && cc.DescricaoCentroCusto == descCC).ToList();
+                detalhamentoGastosCentroCusto = _context.DetalhamentoGastosCentroCustos.Where(cc => cc.IdUsuario == idUsuario && cc.MesAno == mesAno && cc.DescricaoCentroCusto == descCC).ToList();
             }else { 
                 detalhamentoGastosCentroCusto = _context.DetalhamentoGastosCentroCustos.ToList();
             }

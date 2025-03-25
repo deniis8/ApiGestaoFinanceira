@@ -30,9 +30,9 @@ namespace ApiGestaoFinanceira.Controllers
         }*/
 
         [HttpGet("descricaoCC")]
-        public IActionResult RecuperaCentroCustosMesAno([FromQuery] string mesAno, string descCC)
+        public IActionResult RecuperaCentroCustosMesAno([FromQuery] int idUsuario, string mesAno, string descCC)
         {
-            List<ReadDetalhamentoGastosCentroCustoDto> readDto = _detalhamentoGastosCentroCustoService.RecuperaDetalhamentoGastosCentroCustoCC(mesAno, descCC);
+            List<ReadDetalhamentoGastosCentroCustoDto> readDto = _detalhamentoGastosCentroCustoService.RecuperaDetalhamentoGastosCentroCustoCC(idUsuario, mesAno, descCC);
             if (readDto == null) return NotFound();
             return Ok(readDto);
         }       

@@ -34,13 +34,13 @@ namespace ApiGestaoFinanceira.Services
             return _mapper.Map<ReadLancamentoDto>(lancamento);
         }
 
-        public IEnumerable RecuperaLancamentosPorData(string data)
+        public IEnumerable RecuperaLancamentosPorData(int idUsuario, string data)
         {
             if (string.IsNullOrEmpty(data))
                 data = Convert.ToString(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
 
             List<VWLancamento> vwLancamento;
-            vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(data)).ToList();
+            vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(data)).ToList();
 
             if (vwLancamento != null)
             {
@@ -63,25 +63,25 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public IEnumerable RecuperaLancamentosDataDeAte(string dataDe, string dataAte, string status, int idCentroCusto)
+        public IEnumerable RecuperaLancamentosDataDeAte(int idUsuario, string dataDe, string dataAte, string status, int idCentroCusto)
         {
             List<VWLancamento> vwLancamento;
 
             if ((dataDe != null && dataAte != null) & status == null)
             {
-                vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59")).ToList();
+                vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59")).ToList();
                 List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
                 return readDto;
             }
             else if((dataDe != null && dataAte != null) && status != null && idCentroCusto == 0)
             {
-                vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
+                vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
                 List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
                 return readDto;
             }
             else if ((dataDe != null && dataAte != null) && status != null && idCentroCusto > 0)
             {
-                vwLancamento = _context.VWLancamentos.Where(l => l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
+                vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
                 List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
                 return readDto;
             }
@@ -111,6 +111,16 @@ namespace ApiGestaoFinanceira.Services
             _mapper.Map(lancamentoDto, lancamento);
             _context.SaveChanges();
             return Result.Ok();
+        }
+
+        public int RecuperaCentroCustoParaLancamento(int idUsuario, int idCentroCusto)
+        {
+            // Contando o número de registros encontrados
+            var quantidade = _context.VWLancamentos
+                                      .Where(l => l.IdUsuario == idUsuario && l.IdCCusto == idCentroCusto)
+                                      .Count(); // Contando os registros que atendem à condição
+
+            return quantidade; // Retorna o número de registros encontrados
         }
     }
 }

@@ -53,6 +53,19 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
+        public List<ReadCentroCustoDto> RecuperaCentroCustosPorIdUsuario(int idUsuario)
+        {
+            List<CentroCusto> centroCustos;
+            centroCustos = _context.CentroCustos.Where(cc => cc.IdUsuario == idUsuario && cc.Deletado.ToString() != "*").OrderBy(cc => cc.DescriCCusto).ToList();
+
+            if (centroCustos != null)
+            {
+                List<ReadCentroCustoDto> readDto = _mapper.Map<List<ReadCentroCustoDto>>(centroCustos);
+                return readDto;
+            }
+            return null;
+        }
+
         public Result AtualizaCentroCusto(int id, UpdateCentroCustoDto centroCustoDto)
         {
             CentroCusto centroCusto = _context.CentroCustos.FirstOrDefault(centroCusto => centroCusto.Id == id);
