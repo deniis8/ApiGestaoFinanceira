@@ -71,5 +71,13 @@ namespace ApiGestaoFinanceira.Controllers
             if (resultado.IsFailed) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("usuario/{idUsuario}/idCentroCusto/{idCentroCusto}")]
+        public IActionResult ExisteCentroCustoParaLancamento(int idUsuario, int idCentroCusto)
+        {
+            int quantidade = _lancamentoService.RecuperaCentroCustoParaLancamento(idUsuario, idCentroCusto);
+            return Ok(new { quantidade });
+        }
+
     }
 }

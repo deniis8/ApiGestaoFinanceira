@@ -56,7 +56,7 @@ namespace ApiGestaoFinanceira.Services
         public List<ReadCentroCustoDto> RecuperaCentroCustosPorIdUsuario(int idUsuario)
         {
             List<CentroCusto> centroCustos;
-            centroCustos = _context.CentroCustos.Where(cc => cc.IdUsuario == idUsuario && cc.Deletado.ToString() == "").OrderBy(cc => cc.DescriCCusto).ToList();
+            centroCustos = _context.CentroCustos.Where(cc => cc.IdUsuario == idUsuario && cc.Deletado.ToString() != "*").OrderBy(cc => cc.DescriCCusto).ToList();
 
             if (centroCustos != null)
             {

@@ -112,5 +112,15 @@ namespace ApiGestaoFinanceira.Services
             _context.SaveChanges();
             return Result.Ok();
         }
+
+        public int RecuperaCentroCustoParaLancamento(int idUsuario, int idCentroCusto)
+        {
+            // Contando o número de registros encontrados
+            var quantidade = _context.VWLancamentos
+                                      .Where(l => l.IdUsuario == idUsuario && l.IdCCusto == idCentroCusto)
+                                      .Count(); // Contando os registros que atendem à condição
+
+            return quantidade; // Retorna o número de registros encontrados
+        }
     }
 }
