@@ -12,9 +12,8 @@ namespace ApiGestaoFinanceira.Models
         [Column("ID_LANC_FIXO")]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "O campo Data Hora é obrigatório")]
-        [Column("DATA_HORA")]
-        public DateTime DataHora { get; set; }
+        [Column("DIA_MES")]
+        public int DiaMes { get; set; }
 
         [Required(ErrorMessage = "O campo Valor é obrigatório")]
         [Column("VALOR", TypeName = "decimal(10,2)")]

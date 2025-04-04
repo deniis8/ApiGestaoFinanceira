@@ -13,8 +13,8 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
         [Column("ID_LANC_FIXO")]
         public int Id { get; set; }
 
-        [Column("DATA_HORA")]
-        public DateTime DataHora { get; set; }
+        [Column("DIA_MES")]
+        public int DiaMes { get; set; }
 
         [Column("VALOR", TypeName = "decimal(10,2)")]
         public decimal Valor { get; set; }

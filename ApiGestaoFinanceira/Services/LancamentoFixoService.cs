@@ -32,7 +32,7 @@ namespace ApiGestaoFinanceira.Services
         public List<ReadLancamentoFixoDto> RecuperaLancamentosFixosPorIdUsuario(int idUsuario)
         {
             List<LancamentoFixo> lancamentosFixos;
-            lancamentosFixos = _context.LancamentosFixos.Where(cc => cc.IdUsuario == idUsuario && cc.Deletado.ToString() != "*").OrderBy(cc => cc.DataHora).ToList();
+            lancamentosFixos = _context.LancamentosFixos.Where(cc => cc.IdUsuario == idUsuario && cc.Deletado.ToString() != "*").OrderBy(cc => cc.DiaMes).ToList();
 
             if (lancamentosFixos != null)
             {

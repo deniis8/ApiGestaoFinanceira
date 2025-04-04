@@ -6,9 +6,9 @@ namespace ApiGestaoFinanceira.Data.Dto.Lancamento
 {
     public class UpdateLancamentoFixoDto
     {
-        //[Required(ErrorMessage = "O campo Data Hora é obrigatório")]
-        [Column("DATA_HORA")]
-        public DateTime DataHora { get; set; }
+        [Column("DIA_MES")]
+        public int DiaMes { get; set; }
+
         //[Required(ErrorMessage = "O campo Valor é obrigatório")]
         [Column("VALOR", TypeName = "decimal(10,2)")]
         public decimal Valor { get; set; }
