@@ -21,6 +21,7 @@ namespace ApiGestaoFinanceira.Data
         public DbSet<GastosCentroCusto> GastosCentroCustos { get; set; }
 
         public DbSet<DetalhamentoGastosCentroCusto> DetalhamentoGastosCentroCustos { get; set; }
+        public DbSet<LancamentoFixo> LancamentosFixos { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
