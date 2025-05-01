@@ -65,28 +65,27 @@ namespace ApiGestaoFinanceira.Services
 
         public IEnumerable RecuperaLancamentosDataDeAte(int idUsuario, string dataDe, string dataAte, string status, int idCentroCusto)
         {
-            List<VWLancamento> vwLancamento;
+            if (idCentroCusto == 0)
+            {
+                List<VWLancamento> vwLancamento;
+                vwLancamento = _context.VWLancamentos.
+                    Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") &&
+                    l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
 
-            if ((dataDe != null && dataAte != null) & status == null)
-            {
-                vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59")).ToList();
                 List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
                 return readDto;
             }
-            else if((dataDe != null && dataAte != null) && status != null && idCentroCusto == 0)
+            else
             {
-                vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
-                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
-                return readDto;
-            }
-            else if ((dataDe != null && dataAte != null) && status != null && idCentroCusto > 0)
-            {
-                vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") && l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
+                List<VWLancamento> vwLancamento;
+                vwLancamento = _context.VWLancamentos.
+                    Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") &&
+                    l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
+
                 List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
                 return readDto;
             }
 
-            return null;
         }
 
         public Result AtualizaLancamento(int id, UpdateLancamentoDto lancamentoDto)
