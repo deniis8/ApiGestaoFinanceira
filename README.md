@@ -16,14 +16,11 @@ API REST para controle de lançamentos financeiros (receitas e despesas) com cat
 
 ## ⚙️ Tecnologias Utilizadas
 
-- [.NET 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0)
+- [.NET 3.1](https://dotnet.microsoft.com/en-us/download/dotnet/3.1)
 - [Entity Framework Core](https://learn.microsoft.com/ef/core/)
 - [SQL Server](https://www.microsoft.com/pt-br/sql-server)
-- [Swagger / Swashbuckle](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
 
 ---
-
-## 📦 Instalação e Execução
 
 ### 1. Clonar o repositório
 
