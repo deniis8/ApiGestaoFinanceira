@@ -1,6 +1,6 @@
 # 🧾 API - Gestão Financeira
 
-API REST para controle de lançamentos financeiros (receitas e despesas) com categorização por **centros de custo**. Desenvolvida com **.NET 7** e integrada ao frontend Angular disponível [aqui](https://github.com/deniis8/gestaoFinanceira).
+API REST para controle de lançamentos financeiros (receitas e despesas) com categorização por **centros de custo**. Desenvolvida com **.NET 3.1** e integrada ao frontend Angular disponível [aqui](https://github.com/deniis8/gestaoFinanceira).
 
 ---
 
