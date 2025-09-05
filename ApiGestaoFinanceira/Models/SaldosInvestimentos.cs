@@ -20,7 +20,7 @@ namespace ApiGestaoFinanceira.Models
         [Column("INVESTIMENTO_VARIAVEL", TypeName = "decimal(10,2)")]
         public decimal InvestimentoVariavel { get; set; }
 
-        [Column("GASTOS_MES_ATUAL", TypeName = "decimal(10,2)")]
+        [Column("GASTO_MES_ATUAL", TypeName = "decimal(10,2)")]
         public decimal GastosMesAtual { get; set; }
 
         [Column("ID_USUARIO")]
