@@ -22,6 +22,9 @@ namespace ApiGestaoFinanceira.Data.Dto.Saldos
         [Column("GASTO_MES_ATUAL", TypeName = "decimal(10,2)")]
         public decimal GastosMesAtual { get; set; }
 
+        [Column("RECEITA_MENSAL", TypeName = "decimal(10,2)")]
+        public decimal ReceitaMensal { get; set; }
+
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }
 
