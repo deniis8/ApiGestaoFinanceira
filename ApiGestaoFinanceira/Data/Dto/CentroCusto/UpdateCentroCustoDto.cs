@@ -9,5 +9,8 @@ namespace ApiGestaoFinanceira.Data.Dto.CentroCusto
         [Required(ErrorMessage = "O campo Descrição do Centro de Custo é obrigatório")]
         [Column ("DESCRI")]
         public string DescriCCusto { get; set; }
+
+        [Column("VALOR_LIMITE", TypeName = "decimal(10,2)")]
+        public decimal ValorLimite { get; set; }
     }
 }

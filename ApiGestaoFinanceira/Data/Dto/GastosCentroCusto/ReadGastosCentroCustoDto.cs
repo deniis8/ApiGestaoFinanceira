@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiGestaoFinanceira.Data.Dto.GastosCentroCusto
@@ -16,6 +17,9 @@ namespace ApiGestaoFinanceira.Data.Dto.GastosCentroCusto
 
         [Column("DESCRICAO_CENTRO_CUSTO")]
         public string Descricao { get; set; }
+
+        [Column("VALOR_LIMITE", TypeName = "decimal(10,2)")]
+        public decimal ValorLimite { get; set; }
 
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }

@@ -22,6 +22,9 @@ namespace ApiGestaoFinanceira.Models
         [Column("ID_USUARIO")]
         public int IdUsuario { get; set; }
 
+        [Column("VALOR_LIMITE", TypeName = "decimal(10,2)")]
+        public decimal ValorLimite { get; set; }
+
         [Column("D_E_L_E_T_")]
         public char Deletado { get; set; }
     }

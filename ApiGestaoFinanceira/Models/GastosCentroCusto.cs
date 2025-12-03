@@ -28,6 +28,10 @@ namespace ApiGestaoFinanceira.Models
         [Column("DESCRICAO_CENTRO_CUSTO")]
         public string Descricao { get; set; }
 
+        [Required(ErrorMessage = "O campo Valor é obrigatório")]
+        [Column("VALOR_LIMITE", TypeName = "decimal(10,2)")]
+        public decimal ValorLimite { get; set; }
+
         [Required(ErrorMessage = "O campo Data Hora é obrigatório")]
         [Column("DATA_HORA")]
         public DateTime DataHora { get; set; }
