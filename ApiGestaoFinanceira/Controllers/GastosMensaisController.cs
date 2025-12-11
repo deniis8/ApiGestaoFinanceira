@@ -19,10 +19,17 @@ namespace ApiGestaoFinanceira.Controllers
             _gastosMensaisService = gastosMensaisService;
         }
 
-        [HttpGet("usuario/{idUsuario}/data/{data}")]
-        public async Task<ActionResult<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string data)
+        [HttpGet("usuario/{idUsuario}/datade/{datade}")]
+        public async Task<ActionResult<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string dataDe)
         {
-            IEnumerable readDto = await _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, data);
+            IEnumerable readDto = await _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, dataDe);
+            return Ok(readDto);
+        }
+
+        [HttpGet("usuario/{idUsuario}/datade/{datade}/dataate/{dataate}")]
+        public async Task<ActionResult<GastosMensais>> getGastosMensaisApartirDeAte(int idUsuario, string dataDe, string dataAte)
+        {
+            IEnumerable readDto = await _gastosMensaisService.getGastosMensaisApartirDeAte(idUsuario, dataDe, dataAte);
             return Ok(readDto);
         }
 

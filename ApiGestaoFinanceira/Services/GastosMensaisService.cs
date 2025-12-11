@@ -25,19 +25,38 @@ namespace ApiGestaoFinanceira.Services
             _mapper = mapper;
         }
 
-        public async Task<List<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string data)
+        public async Task<List<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string dataDe)
         {
-            if (string.IsNullOrEmpty(data))
-                data = Convert.ToString(DateTime.Now.AddMonths(-12).ToString("yyyy-MM-dd"));
+            string dataAte = Convert.ToString(DateTime.Now.ToString("yyyy-MM-dd"));
+
+            if (string.IsNullOrEmpty(dataDe))
+                dataDe = Convert.ToString(DateTime.Now.AddMonths(-12).ToString("yyyy-MM-dd"));
 
             var parameters = new[]
             {
                 new MySqlParameter("@ID_USER", idUsuario),
-                new MySqlParameter("@APARTIR_DE", data)
+                new MySqlParameter("@APARTIR_DE", dataDe),
+                new MySqlParameter("@ATE", dataAte)
             };
 
             var gastosMensais = await _context.GastosMensais
-                .FromSqlRaw("CALL SP_GASTOS_MENSAIS(@ID_USER, @APARTIR_DE)", parameters)
+                .FromSqlRaw("CALL SP_GASTOS_MENSAIS(@ID_USER, @APARTIR_DE, @ATE)", parameters)
+                .ToListAsync();
+
+            return gastosMensais.AsEnumerable().ToList();
+        }
+
+        public async Task<List<GastosMensais>> getGastosMensaisApartirDeAte(int idUsuario, string dataDe, string dataAte)
+        {
+            var parameters = new[]
+            {
+                new MySqlParameter("@ID_USER", idUsuario),
+                new MySqlParameter("@APARTIR_DE", dataDe),
+                new MySqlParameter("@ATE", dataAte)
+            };
+
+            var gastosMensais = await _context.GastosMensais
+                .FromSqlRaw("CALL SP_GASTOS_MENSAIS(@ID_USER, @APARTIR_DE, @ATE)", parameters)
                 .ToListAsync();
 
             return gastosMensais.AsEnumerable().ToList();
