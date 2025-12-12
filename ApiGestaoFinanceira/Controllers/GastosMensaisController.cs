@@ -4,6 +4,7 @@ using System.Collections;
 using ApiGestaoFinanceira.Data.Dto.GastosMensais;
 using ApiGestaoFinanceira.Models;
 using System.Threading.Tasks;
+using System;
 
 namespace ApiGestaoFinanceira.Controllers
 {
@@ -19,26 +20,28 @@ namespace ApiGestaoFinanceira.Controllers
             _gastosMensaisService = gastosMensaisService;
         }
 
-        [HttpGet("usuario/{idUsuario}/datade/{datade}")]
-        public async Task<ActionResult<GastosMensais>> getGastosMensaisApartirDe(int idUsuario, string dataDe)
+        [HttpGet("")]
+        public async Task<ActionResult<GastosMensais>> getGastosMensais([FromQuery] int idUsuario, [FromQuery] string dataDe, [FromQuery] string dataAte)
         {
-            IEnumerable readDto = await _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, dataDe);
+            if (idUsuario == 0)
+                return BadRequest("O parâmetro 'idUsuario' não está preenchido com uma informação válida.");
+
+            if (string.IsNullOrEmpty(dataDe) && string.IsNullOrEmpty(dataAte))
+            {
+                dataDe = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)
+               .AddMonths(-12)
+               .ToString("yyyy-MM-dd");
+
+                dataAte = Convert.ToString(DateTime.Now.ToString("yyyy-MM-dd"));
+            }
+            else if (string.IsNullOrEmpty(dataDe) || string.IsNullOrEmpty(dataAte))
+            {
+                return BadRequest("Os parâmetros 'dataDe' e 'dataAté' precisam estar preenchidos os ambos sem preencher.");
+            }
+
+            IEnumerable readDto = await _gastosMensaisService.getGastosMensais(idUsuario, dataDe, dataAte);
+
             return Ok(readDto);
         }
-
-        [HttpGet("usuario/{idUsuario}/datade/{datade}/dataate/{dataate}")]
-        public async Task<ActionResult<GastosMensais>> getGastosMensaisApartirDeAte(int idUsuario, string dataDe, string dataAte)
-        {
-            IEnumerable readDto = await _gastosMensaisService.getGastosMensaisApartirDeAte(idUsuario, dataDe, dataAte);
-            return Ok(readDto);
-        }
-
-        [HttpGet("usuario/{idUsuario}")]
-        public async Task<ActionResult<GastosMensais>> getAllGastosMensais(int idUsuario)
-        {
-            object readDto = await _gastosMensaisService.getGastosMensaisApartirDe(idUsuario, null);
-            return Ok(readDto);
-        }
-
     }
 }
