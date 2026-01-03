@@ -28,9 +28,8 @@ namespace ApiGestaoFinanceira.Controllers
 
             if (string.IsNullOrEmpty(dataDe) && string.IsNullOrEmpty(dataAte))
             {
-                dataDe = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1)
-               .AddMonths(-12)
-               .ToString("yyyy-MM-dd");
+                dataDe = new DateTime(DateTime.Now.Year, 1, 1)
+                .ToString("yyyy-MM-dd");
 
                 dataAte = Convert.ToString(DateTime.Now.ToString("yyyy-MM-dd"));
             }
