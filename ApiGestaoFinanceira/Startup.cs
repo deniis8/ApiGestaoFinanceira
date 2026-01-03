@@ -94,7 +94,46 @@ namespace ApiGestaoFinanceira
                 app.UseHsts();
             }*/
 
-            app.UseHttpsRedirection();
+            // ---------------------------------------------------------------------------
+            //app.UseHttpsRedirection();
+            // ---------------------------------------------------------------------------
+            // Ajustes realizados para hospedar a aplicação Angular de forma estática
+            // na OrangePi utilizando NGINX, sem depender do Node.js ou node_modules:
+            //
+            // 1. Geramos o build de produção do Angular usando:
+            //      ng build --configuration production
+            //    Isso gera os arquivos estáticos (HTML, JS, CSS) em:
+            //      /dist/gestao-financeira
+            //
+            // 2. Copiamos o build para o diretório servido pelo NGINX:
+            //      /var/www/gestao-financeira
+            //    Dessa forma, o Angular é servido como conteúdo estático,
+            //    dispensando a execução do 'ng serve' e o uso de node_modules.
+            //
+            // 3. Configuramos o NGINX para:
+            //      - Servir o Angular no root (/) da aplicação.
+            //      - Fazer proxy das chamadas de API (/api/) para a API .NET
+            //        rodando na porta 5000, sem expor o Angular ao Node.js.
+            //
+            // 4. Na API .NET, comentamos a linha:
+            //      app.UseHttpsRedirection();
+            //    Isso evita redirecionamento automático para HTTPS, que
+            //    poderia gerar erros quando a aplicação é acessada via HTTP
+            //    do NGINX (proxy reverso), mantendo a compatibilidade com
+            //    chamadas do Angular hospedado.
+            //
+            // Resultado:
+            // - Angular funciona via NGINX como site estático.
+            // - API .NET é acessível via proxy /api/.
+            // - Node.js e node_modules não são mais necessários na OrangePi.
+            // - Redução significativa de uso de disco e simplificação da stack.
+            //
+            // Observação:
+            // Esse setup permite que você mantenha a aplicação leve,
+            // confiável e de fácil manutenção em dispositivos de baixa memória
+            // como a OrangePi.
+            //
+            // ---------------------------------------------------------------------------            
 
             app.UseRouting();            
 
