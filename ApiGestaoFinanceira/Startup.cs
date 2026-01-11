@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using ApiGestaoFinanceira.Models;
+using ApiGestaoFinanceira.Services.Interfaces;
 
 namespace ApiGestaoFinanceira
 {
@@ -81,6 +82,8 @@ namespace ApiGestaoFinanceira
             services.AddScoped<LancamentosRecebidosIAService, LancamentosRecebidosIAService>();
             services.AddScoped<GastosCentroCustoIAService, GastosCentroCustoIAService>();
             services.AddScoped<InvestimentosIAService, InvestimentosIAService>();
+            services.AddHttpClient<IAnaliseFinanceiraIAOpenAIService, AnaliseFinanceiraIAOpenAIService>();
+
             services.AddCors();
         }
 
