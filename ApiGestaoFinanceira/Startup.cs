@@ -13,6 +13,8 @@ using System;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
+using ApiGestaoFinanceira.Models;
+using ApiGestaoFinanceira.Services.Interfaces;
 
 namespace ApiGestaoFinanceira
 {
@@ -29,8 +31,8 @@ namespace ApiGestaoFinanceira
         public void ConfigureServices(IServiceCollection services)
         {
            
-            string ambiente = "ServerConnectionGFOrangePi";
-            //string ambiente = "ServerConnectionGFDev";
+            //string ambiente = "ServerConnectionGFOrangePi";
+            string ambiente = "ServerConnectionGFDev";
 
             services.AddDbContextPool<AppDbContext>(options => options
                    .UseMySql(
@@ -77,6 +79,11 @@ namespace ApiGestaoFinanceira
             services.AddScoped<DetalhamentoGastosCentroCustoService, DetalhamentoGastosCentroCustoService>();
             services.AddScoped<LancamentoFixoService, LancamentoFixoService>();
             services.AddScoped<TokenService>();
+            services.AddScoped<LancamentosRecebidosIAService, LancamentosRecebidosIAService>();
+            services.AddScoped<GastosCentroCustoIAService, GastosCentroCustoIAService>();
+            services.AddScoped<InvestimentosIAService, InvestimentosIAService>();
+            services.AddHttpClient<IAnaliseFinanceiraIAOpenAIService, AnaliseFinanceiraIAOpenAIService>();
+
             services.AddCors();
         }
 
