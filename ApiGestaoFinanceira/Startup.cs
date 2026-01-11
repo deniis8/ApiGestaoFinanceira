@@ -82,6 +82,7 @@ namespace ApiGestaoFinanceira
             services.AddScoped<LancamentosRecebidosIAService, LancamentosRecebidosIAService>();
             services.AddScoped<GastosCentroCustoIAService, GastosCentroCustoIAService>();
             services.AddScoped<InvestimentosIAService, InvestimentosIAService>();
+            services.AddScoped<ConfiguracoesIAService, ConfiguracoesIAService>();
             services.AddHttpClient<IAnaliseFinanceiraIAOpenAIService, AnaliseFinanceiraIAOpenAIService>();
 
             services.AddCors();

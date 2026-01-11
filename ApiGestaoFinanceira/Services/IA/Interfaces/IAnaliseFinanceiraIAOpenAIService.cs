@@ -5,6 +5,6 @@ namespace ApiGestaoFinanceira.Services.Interfaces
 {
     public interface IAnaliseFinanceiraIAOpenAIService
     {
-        Task<string> GerarAnaliseAsync(AnaliseFinanceiraIADto dados, string textoAuxiliar);
+        Task<string> GerarAnaliseAsync(ReadAnaliseFinanceiraIADto dados, string textoAuxiliar);
     }
 }
