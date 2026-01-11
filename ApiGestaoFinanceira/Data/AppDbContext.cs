@@ -23,6 +23,12 @@ namespace ApiGestaoFinanceira.Data
         public DbSet<DetalhamentoGastosCentroCusto> DetalhamentoGastosCentroCustos { get; set; }
         public DbSet<LancamentoFixo> LancamentosFixos { get; set; }
 
+        public DbSet<LancamentosRecebidosIA> LancamentosRecebidosIA { get; set; }
+
+        public DbSet<GastosCentroCustoIA> GastosCentroCustoIA { get; set; }
+
+        public DbSet<InvestimentosIA> InvestimentosIA { get; set; }
+
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
 
@@ -32,6 +38,9 @@ namespace ApiGestaoFinanceira.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<GastosCentroCusto>().HasNoKey();
+            builder.Entity<LancamentosRecebidosIA>().HasNoKey().ToView(null);
+            builder.Entity<GastosCentroCustoIA>().HasNoKey().ToView(null);
+            builder.Entity<InvestimentosIA>().HasNoKey().ToView(null);
         }
         
 
