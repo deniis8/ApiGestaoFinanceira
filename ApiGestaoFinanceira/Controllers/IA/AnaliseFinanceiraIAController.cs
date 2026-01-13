@@ -32,7 +32,7 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GerarAnalise([FromBody] AnaliseFinanceiraIARequestDto request)
+        public async Task<ActionResult> GerarAnalise([FromBody] ReadAnaliseFinanceiraIARequestDto request)
         {
             if (request.IdUsuario == 0)
                 return BadRequest("O parâmetro 'idUsuario' não está preenchido com uma informação válida.");
@@ -49,7 +49,7 @@ namespace ApiGestaoFinanceira.Controllers
             var saldos = await _saldosInvestimentosService
                 .getSaldosInvestimentos(request.IdUsuario);
 
-            var response = new AnaliseFinanceiraIADto
+            var response = new ReadAnaliseFinanceiraIADto
             {
                 LancamentosRecebidos = lancamentosRecebidos,
                 GastosPorCentroDeCusto = gastosCentroCusto,

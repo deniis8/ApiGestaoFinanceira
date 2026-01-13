@@ -26,7 +26,7 @@ public class AnaliseFinanceiraIAOpenAIService : IAnaliseFinanceiraIAOpenAIServic
     }
 
     public async Task<string> GerarAnaliseAsync(
-        AnaliseFinanceiraIADto dados,
+        ReadAnaliseFinanceiraIADto dados,
         string textoAuxiliar
     )
     {
@@ -71,10 +71,10 @@ public class AnaliseFinanceiraIAOpenAIService : IAnaliseFinanceiraIAOpenAIServic
     }
 
     private string MontarPrompt(
-        AnaliseFinanceiraIADto dados,
+        ReadAnaliseFinanceiraIADto dados,
         string textoAuxiliar
     )
     {
-        return $"{textoAuxiliar}\n\nDados financeiros:\n{JsonSerializer.Serialize(dados)}";
+        return $"{textoAuxiliar}: {JsonSerializer.Serialize(dados)}";
     }
 }

@@ -1,4 +1,5 @@
-﻿using ApiGestaoFinanceira.Models;
+﻿using ApiGestaoFinanceira.Data.Dto.IA.GastosCentroCustoIA;
+using ApiGestaoFinanceira.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -28,6 +29,8 @@ namespace ApiGestaoFinanceira.Data
         public DbSet<GastosCentroCustoIA> GastosCentroCustoIA { get; set; }
 
         public DbSet<InvestimentosIA> InvestimentosIA { get; set; }
+
+        public DbSet<ConfiguracoesIA> ConfiguracoesIA { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
