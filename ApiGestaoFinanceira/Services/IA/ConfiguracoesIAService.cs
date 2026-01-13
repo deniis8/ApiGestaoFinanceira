@@ -41,8 +41,8 @@ namespace ApiGestaoFinanceira.Services
 
         public ReadConfiguracoesIADto RecuperaConfiguracoesIAPorIdUsuario(int idUsuario)
         {
-            List<ConfiguracoesIA> configuracoesIA;
-            configuracoesIA = _context.ConfiguracoesIA.Where(ia => ia.Deletado.ToString() == "" && ia.IdUsuario == idUsuario).ToList();
+            ConfiguracoesIA configuracoesIA;
+            configuracoesIA = _context.ConfiguracoesIA.Where(ia => ia.Deletado.ToString() != "*" && ia.IdUsuario == idUsuario).FirstOrDefault();
 
             if (configuracoesIA != null)
             {
