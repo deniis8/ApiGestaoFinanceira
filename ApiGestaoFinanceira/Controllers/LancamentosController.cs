@@ -41,7 +41,7 @@ namespace ApiGestaoFinanceira.Controllers
         }
 
         [HttpGet("dataDeAte")]
-        public IActionResult RecuperaLancamentosDeAte([FromQuery] int idUsuario, string dataDe, string dataAte, string status, int idCentroCusto)
+        public IActionResult RecuperaLancamentosDeAte([FromQuery] int idUsuario, string dataDe, string dataAte, string status, string idCentroCusto)
         {
             IEnumerable readDto = _lancamentoService.RecuperaLancamentosDataDeAte(idUsuario, dataDe, dataAte, status, idCentroCusto);
             if (readDto == null) return NotFound();

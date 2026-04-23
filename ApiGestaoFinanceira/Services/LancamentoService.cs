@@ -63,29 +63,28 @@ namespace ApiGestaoFinanceira.Services
             return null;
         }
 
-        public IEnumerable RecuperaLancamentosDataDeAte(int idUsuario, string dataDe, string dataAte, string status, int idCentroCusto)
+        public IEnumerable RecuperaLancamentosDataDeAte(int idUsuario, string dataDe, string dataAte, string status, string idCentroCusto)
         {
-            if (idCentroCusto == 0)
-            {
-                List<VWLancamento> vwLancamento;
-                vwLancamento = _context.VWLancamentos.
-                    Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") &&
-                    l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status)).ToList();
+            var query = _context.VWLancamentos.Where(l =>
+                l.IdUsuario == idUsuario &&
+                l.DataHora >= DateTime.Parse(dataDe + " 00:00") &&
+                l.DataHora <= DateTime.Parse(dataAte + " 23:59") &&
+                status.Contains(l.Status)
+            );
 
-                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
-                return readDto;
-            }
-            else
+            if (!string.IsNullOrWhiteSpace(idCentroCusto) && idCentroCusto != "0")
             {
-                List<VWLancamento> vwLancamento;
-                vwLancamento = _context.VWLancamentos.
-                    Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(dataDe + " 00:00") &&
-                    l.DataHora <= DateTime.Parse(dataAte + " 23:59") && status.Contains(l.Status) && l.IdCCusto == idCentroCusto).ToList();
+                var listaIds = idCentroCusto
+                    .Split(',', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(x => int.Parse(x.Trim()))
+                    .ToList();
 
-                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
-                return readDto;
+                query = query.Where(l => listaIds.Contains(l.IdCCusto));
             }
 
+            var vwLancamento = query.ToList();
+
+            return _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
         }
 
         public Result AtualizaLancamento(int id, UpdateLancamentoDto lancamentoDto)
