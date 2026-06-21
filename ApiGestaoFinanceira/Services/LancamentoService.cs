@@ -34,20 +34,29 @@ namespace ApiGestaoFinanceira.Services
             return _mapper.Map<ReadLancamentoDto>(lancamento);
         }
 
-        public IEnumerable RecuperaLancamentosPorData(int idUsuario, string data)
+        public IEnumerable<ReadVWLancamentoDto> RecuperaLancamentosPorData(int idUsuario, string data)
         {
+            DateTime dataFiltro;
+
             if (string.IsNullOrEmpty(data))
-                data = Convert.ToString(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
-
-            List<VWLancamento> vwLancamento;
-            vwLancamento = _context.VWLancamentos.Where(l => l.IdUsuario == idUsuario && l.DataHora >= DateTime.Parse(data)).ToList();
-
-            if (vwLancamento != null)
             {
-                List<ReadVWLancamentoDto> readDto = _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
-                return readDto;
+                var ultimoPagamento = _context.VWLancamentos
+                    .Where(l => l.IdUsuario == idUsuario && l.DescriCCusto == "Pagamento" && l.Status == "Recebido")
+                    .OrderByDescending(l => l.DataHora)
+                    .FirstOrDefault();
+
+                dataFiltro = ultimoPagamento?.DataHora ?? DateTime.Now.AddMonths(-1);
             }
-            return null;
+            else
+            {
+                dataFiltro = DateTime.Parse(data);
+            }
+
+            var vwLancamento = _context.VWLancamentos
+                .Where(l => l.IdUsuario == idUsuario && l.DataHora >= dataFiltro)
+                .ToList();
+
+            return _mapper.Map<List<ReadVWLancamentoDto>>(vwLancamento);
         }
 
         public Object RecuperaLancamentosPorId(int id)
