@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
@@ -18,6 +19,16 @@ namespace ApiGestaoFinanceira.Services
             services.AddTransient<IFonteJogoPalmeiras>(sp => sp.GetRequiredService<JogoDoPalmeirasFonte>());
 
             services.AddScoped<ProximoJogoService>();
+
+            // Sincronização periódica do próximo jogo com o Supabase.
+            services.AddOptions<SupabaseOptions>()
+                .Configure<IConfiguration>((opcoes, configuracao) => configuracao.GetSection("Supabase").Bind(opcoes));
+            services.AddOptions<SincronizacaoJogosOptions>()
+                .Configure<IConfiguration>((opcoes, configuracao) => configuracao.GetSection("SincronizacaoJogos").Bind(opcoes));
+
+            services.AddHttpClient<PartidaFutebolSupabaseRepositorio>(cliente => cliente.Timeout = TimeSpan.FromSeconds(15));
+            services.AddScoped<SincronizaJogoPalmeirasService>();
+            services.AddHostedService<SincronizacaoJogosBackgroundService>();
 
             return services;
         }
