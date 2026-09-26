@@ -21,6 +21,7 @@ Um `BackgroundService` (`SincronizacaoJogosBackgroundService`) busca o próximo 
 
 - Chave do upsert: `UNIQUE (jogo, data_hora)` (`on_conflict=jogo,data_hora`).
 - `data_hora` é gravada com fuso de Brasília (`-03:00`); `emissoras` vai separada por `|` (ex.: `Globo|SporTV|Premiere`).
+- A coluna `atualizado_em` (quando a linha foi gravada pela última vez) é preenchida no banco por um trigger, então a API não precisa enviá-la. O relógio usa esse valor para avisar quando os dados estão desatualizados (SQL em `docs/supabase.sql` do projeto do relógio, `onde-assistir`).
 - Jogo **sem horário definido** não é gravado (evita criar um horário falso e uma linha duplicada depois).
 - A escrita usa a **service_role key** (ignora o RLS). Nunca coloque essa chave no `appsettings.json` versionado nem em app cliente.
 
