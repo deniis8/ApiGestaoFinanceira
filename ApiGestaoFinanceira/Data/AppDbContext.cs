@@ -1,5 +1,6 @@
 ﻿using ApiGestaoFinanceira.Data.Dto.IA.GastosCentroCustoIA;
 using ApiGestaoFinanceira.Models;
+using ApiGestaoFinanceira.Models.PainelFinanceiro;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.IO;
@@ -31,6 +32,11 @@ namespace ApiGestaoFinanceira.Data
         public DbSet<InvestimentosIA> InvestimentosIA { get; set; }
 
         public DbSet<ConfiguracoesIA> ConfiguracoesIA { get; set; }
+
+        public DbSet<EvolucaoPatrimonio> EvolucaoPatrimonio { get; set; }
+        public DbSet<ResumoMes> ResumoMes { get; set; }
+        public DbSet<TopGasto> TopGastos { get; set; }
+        public DbSet<GastoPorDiaSemana> GastosPorDiaSemana { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> opt) : base(opt)
         {
