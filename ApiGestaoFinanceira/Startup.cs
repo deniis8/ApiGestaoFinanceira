@@ -83,6 +83,7 @@ namespace ApiGestaoFinanceira
             services.AddScoped<GastosCentroCustoIAService, GastosCentroCustoIAService>();
             services.AddScoped<InvestimentosIAService, InvestimentosIAService>();
             services.AddScoped<ConfiguracoesIAService, ConfiguracoesIAService>();
+            services.AddScoped<PainelFinanceiroService, PainelFinanceiroService>();
             services.AddHttpClient<IAnaliseFinanceiraIAOpenAIService, AnaliseFinanceiraIAOpenAIService>();
             services.AddJogosPalmeiras();
 
@@ -106,40 +107,40 @@ namespace ApiGestaoFinanceira
             // ---------------------------------------------------------------------------
             //app.UseHttpsRedirection();
             // ---------------------------------------------------------------------------
-            // Ajustes realizados para hospedar a aplicação Angular de forma estática
+            // Ajustes realizados para hospedar a aplicaï¿½ï¿½o Angular de forma estï¿½tica
             // na OrangePi utilizando NGINX, sem depender do Node.js ou node_modules:
             //
-            // 1. Geramos o build de produção do Angular usando:
+            // 1. Geramos o build de produï¿½ï¿½o do Angular usando:
             //      ng build --configuration production
-            //    Isso gera os arquivos estáticos (HTML, JS, CSS) em:
+            //    Isso gera os arquivos estï¿½ticos (HTML, JS, CSS) em:
             //      /dist/gestao-financeira
             //
-            // 2. Copiamos o build para o diretório servido pelo NGINX:
+            // 2. Copiamos o build para o diretï¿½rio servido pelo NGINX:
             //      /var/www/gestao-financeira
-            //    Dessa forma, o Angular é servido como conteúdo estático,
-            //    dispensando a execução do 'ng serve' e o uso de node_modules.
+            //    Dessa forma, o Angular ï¿½ servido como conteï¿½do estï¿½tico,
+            //    dispensando a execuï¿½ï¿½o do 'ng serve' e o uso de node_modules.
             //
             // 3. Configuramos o NGINX para:
-            //      - Servir o Angular no root (/) da aplicação.
+            //      - Servir o Angular no root (/) da aplicaï¿½ï¿½o.
             //      - Fazer proxy das chamadas de API (/api/) para a API .NET
             //        rodando na porta 5000, sem expor o Angular ao Node.js.
             //
             // 4. Na API .NET, comentamos a linha:
             //      app.UseHttpsRedirection();
-            //    Isso evita redirecionamento automático para HTTPS, que
-            //    poderia gerar erros quando a aplicação é acessada via HTTP
+            //    Isso evita redirecionamento automï¿½tico para HTTPS, que
+            //    poderia gerar erros quando a aplicaï¿½ï¿½o ï¿½ acessada via HTTP
             //    do NGINX (proxy reverso), mantendo a compatibilidade com
             //    chamadas do Angular hospedado.
             //
             // Resultado:
-            // - Angular funciona via NGINX como site estático.
-            // - API .NET é acessível via proxy /api/.
-            // - Node.js e node_modules não são mais necessários na OrangePi.
-            // - Redução significativa de uso de disco e simplificação da stack.
+            // - Angular funciona via NGINX como site estï¿½tico.
+            // - API .NET ï¿½ acessï¿½vel via proxy /api/.
+            // - Node.js e node_modules nï¿½o sï¿½o mais necessï¿½rios na OrangePi.
+            // - Reduï¿½ï¿½o significativa de uso de disco e simplificaï¿½ï¿½o da stack.
             //
-            // Observação:
-            // Esse setup permite que você mantenha a aplicação leve,
-            // confiável e de fácil manutenção em dispositivos de baixa memória
+            // Observaï¿½ï¿½o:
+            // Esse setup permite que vocï¿½ mantenha a aplicaï¿½ï¿½o leve,
+            // confiï¿½vel e de fï¿½cil manutenï¿½ï¿½o em dispositivos de baixa memï¿½ria
             // como a OrangePi.
             //
             // ---------------------------------------------------------------------------            
