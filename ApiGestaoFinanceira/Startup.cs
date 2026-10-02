@@ -86,6 +86,7 @@ namespace ApiGestaoFinanceira
             services.AddScoped<PainelFinanceiroService, PainelFinanceiroService>();
             services.AddHttpClient<IAnaliseFinanceiraIAOpenAIService, AnaliseFinanceiraIAOpenAIService>();
             services.AddJogosPalmeiras();
+            services.AddPromocoes();
 
             services.AddCors();
         }
